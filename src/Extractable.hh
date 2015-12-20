@@ -2,7 +2,7 @@
 
 namespace hhpack\getopt;
 
-interface Extractable<Ti, To>
+interface Extractable<T>
 {
-    public function extract(Ti $input) : To;
+    public function items() : Iterable<T>;
 }

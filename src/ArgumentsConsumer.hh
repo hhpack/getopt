@@ -15,8 +15,8 @@ final class ArgumentsConsumer
         Traversable<string> $argv = []
     )
     {
-        $extractor = new ArgumentsExtractor($options);
-        $this->argv = ImmVector::fromItems($extractor->extract($argv));
+        $extractor = new ArgumentsExtractor($options, $argv);
+        $this->argv = ImmVector::fromItems($extractor->items());
     }
 
     public function valid() : bool

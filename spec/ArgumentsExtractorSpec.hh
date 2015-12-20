@@ -8,17 +8,17 @@ use hhpack\getopt\FlagOption;
 use hhpack\getopt\ValueOption;
 
 describe(ArgumentsExtractor::class, function () {
-  describe('extract', function () {
+  describe('items', function () {
     context('when -nfoo', function () {
       beforeEach(function () {
         $this->args = [ '-nfoo' ];
         $this->options = new ArgumentOptions([
           new ValueOption('name', 'n', 'name', 'foo', false)
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options);
+        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->extract($this->args);
+        $args = $this->extractor->items();
         expect($args->at(0))->toBe('-n');
         expect($args->at(1))->toBe('foo');
       });
@@ -29,10 +29,10 @@ describe(ArgumentsExtractor::class, function () {
         $this->options = new ArgumentOptions([
           new ValueOption('name', 'n', 'name', 'foo', false)
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options);
+        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->extract($this->args);
+        $args = $this->extractor->items();
         expect($args->at(0))->toBe('-n');
         expect($args->at(1))->toBe('foo');
       });
@@ -43,10 +43,10 @@ describe(ArgumentsExtractor::class, function () {
         $this->options = new ArgumentOptions([
           new ValueOption('name', 'n', 'name', 'foo', false)
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options);
+        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->extract($this->args);
+        $args = $this->extractor->items();
         expect($args->at(0))->toBe('--name');
         expect($args->at(1))->toBe('foo');
       });
@@ -58,10 +58,10 @@ describe(ArgumentsExtractor::class, function () {
           new FlagOption('debug', 'd', 'debug'),
           new FlagOption('verbose', 'V', 'verbose')
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options);
+        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->extract($this->args);
+        $args = $this->extractor->items();
         expect($args->at(0))->toBe('-d');
         expect($args->at(1))->toBe('-V');
       });

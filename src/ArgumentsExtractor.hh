@@ -7,13 +7,22 @@ use RuntimeException;
 final class ArgumentsExtractor implements ArgumentsStringExtractor
 {
 
+    private Iterable<string> $argv;
+
     public function __construct(
-        private ArgumentOptions $options
+        private ArgumentOptions $options,
+        Traversable<string> $argv
     )
     {
+        $this->argv = $this->extract($argv);
     }
 
-    public function extract(Traversable<string> $argv) : Iterable<string>
+    public function items() : Iterable<string>
+    {
+        return $this->argv;
+    }
+
+    private function extract(Traversable<string> $argv) : Iterable<string>
     {
         return $this->extractFlagSet($this->extractOptions($argv));
     }

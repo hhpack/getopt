@@ -2,6 +2,6 @@
 
 namespace hhpack\getopt;
 
-interface ArgumentsStringExtractor extends Extractable<Traversable<string>, Iterable<string>>
+interface ArgumentsStringExtractor extends Extractable<string>
 {
 }
