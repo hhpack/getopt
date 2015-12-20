@@ -25,13 +25,13 @@ final class ArgumentsExtractor implements ArgumentsStringExtractor
         foreach ($argv as $value) {
             $matches = [];
 
-            if (preg_match('/^(-|--\w+)=(.+)$/', $value, $matches) !== 1) {
+            if (preg_match('/^(-|--)(\w+)=(.+)$/', $value, $matches) !== 1) {
                 $arguments->add($value);
                 continue;
             }
-            list($_, $name, $value) = $matches;
+            list($_, $prefix, $name, $value) = $matches;
 
-            $arguments->addAll([ $name, $value ]);
+            $arguments->addAll([ $prefix . $name, $value ]);
         }
 
         return $arguments->toImmVector();
@@ -76,7 +76,7 @@ final class ArgumentsExtractor implements ArgumentsStringExtractor
                 continue;
             } else if ($this->options->hasValueOption($flag)) { //has args?
                 $value = substr($remainFlags, 1);
-                $arguments->addAll([ $flag, $value ]);
+                $arguments->addAll([ '-' . $flag, $value ]);
                 break;
             } else {
                 throw new RuntimeException(sprintf('%s is not a valid option', $flag));
