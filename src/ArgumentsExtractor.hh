@@ -3,11 +3,13 @@
 namespace hhpack\getopt;
 
 use RuntimeException;
+use ConstCollection;
+use ConstIndexAccess;
 
-final class ArgumentsExtractor implements ArgumentsStringExtractor
+final class ArgumentsExtractor implements ConstCollection<string>, ConstIndexAccess<int, string>
 {
 
-    private Iterable<string> $argv;
+    private ImmVector<string> $argv;
 
     public function __construct(
         private ArgumentOptions $options,
@@ -19,10 +21,35 @@ final class ArgumentsExtractor implements ArgumentsStringExtractor
 
     public function items() : Iterable<string>
     {
-        return $this->argv;
+        return $this->argv->items();
     }
 
-    private function extract(Traversable<string> $argv) : Iterable<string>
+    public function isEmpty() : bool
+    {
+        return $this->argv->isEmpty();
+    }
+
+    public function count() : int
+    {
+        return $this->argv->count();
+    }
+
+    public function at(int $k) : string
+    {
+        return $this->argv->at($k);
+    }
+
+    public function containsKey<Tu super int>(Tu $k) : bool
+    {
+        return $this->argv->containsKey($k);
+    }
+
+    public function get(int $k) : ?string
+    {
+        return $this->argv->get($k);
+    }
+
+    private function extract(Traversable<string> $argv) : ImmVector<string>
     {
         return $this->extractFlagSet($this->extractOptions($argv));
     }
