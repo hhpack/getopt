@@ -2,7 +2,7 @@
 
 namespace hhpack\getopt;
 
-final class ArgumentParser
+final class ArgumentParser implements Parser<Traversable<string>, ParsedResult>
 {
 
     public function __construct(
@@ -11,13 +11,13 @@ final class ArgumentParser
     {
     }
 
-    public function parse(Traversable<string> $argv = []) : ParsedResult
+    public function parse(Traversable<string> $input = []) : ParsedResult
     {
         $arguments = Vector {};
         $options = Vector {};
         $options->addAll($this->options->defaultValues());
 
-        $consumer = new ArgumentsConsumer($this->options, $argv);
+        $consumer = new ArgumentsConsumer($this->options, $input);
 
         while ($consumer->valid()) {
             $matches = [];
