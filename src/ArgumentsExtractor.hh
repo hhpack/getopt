@@ -4,9 +4,12 @@ namespace hhpack\getopt;
 
 use RuntimeException;
 use ConstCollection;
-use ConstIndexAccess;
 
-final class ArgumentsExtractor implements ConstCollection<string>, ConstIndexAccess<int, string>
+// The reason is unknown, because the error occurs at run time, you do not specify a ConstIndexAccess
+// Declaration of hhpack\getopt\ArgumentsExtractor::at() must be compatible with that of ConstIndexAccess::at() in /home/vagrant/shared/getopt/src/ArgumentsExtractor.hh on line 9
+// use ConstIndexAccess;
+
+final class ArgumentsExtractor implements ConstCollection<string>
 {
 
     private ImmVector<string> $argv;
