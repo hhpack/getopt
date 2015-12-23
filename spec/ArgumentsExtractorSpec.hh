@@ -18,9 +18,8 @@ describe(ArgumentsExtractor::class, function () {
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->items();
-        expect($args->at(0))->toBe('-n');
-        expect($args->at(1))->toBe('foo');
+        expect($this->extractor->at(0))->toBe('-n');
+        expect($this->extractor->at(1))->toBe('foo');
       });
     });
     context('when -n=foo', function () {
@@ -32,9 +31,8 @@ describe(ArgumentsExtractor::class, function () {
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->items();
-        expect($args->at(0))->toBe('-n');
-        expect($args->at(1))->toBe('foo');
+        expect($this->extractor->at(0))->toBe('-n');
+        expect($this->extractor->at(1))->toBe('foo');
       });
     });
     context('when --name=foo', function () {
@@ -46,9 +44,8 @@ describe(ArgumentsExtractor::class, function () {
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->items();
-        expect($args->at(0))->toBe('--name');
-        expect($args->at(1))->toBe('foo');
+        expect($this->extractor->at(0))->toBe('--name');
+        expect($this->extractor->at(1))->toBe('foo');
       });
     });
     context('when -dv', function () {
@@ -61,9 +58,8 @@ describe(ArgumentsExtractor::class, function () {
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
       it('return extract arguments', function () {
-        $args = $this->extractor->items();
-        expect($args->at(0))->toBe('-d');
-        expect($args->at(1))->toBe('-V');
+        expect($this->extractor->at(0))->toBe('-d');
+        expect($this->extractor->at(1))->toBe('-V');
       });
     });
   });
