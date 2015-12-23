@@ -15,6 +15,7 @@ final class ArgumentParser
     {
         $arguments = Vector {};
         $options = Vector {};
+        $options->addAll($this->options->defaultValues());
 
         $consumer = new ArgumentsConsumer($this->options, $argv);
 

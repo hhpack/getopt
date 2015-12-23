@@ -91,6 +91,23 @@ final class OptionSet
         return $this->valueOptions()->containsKey($name);
     }
 
+    public function defaultValues() : ImmVector<Pair<string, mixed>>
+    {
+        $defaultValues = Map {};
+
+        foreach ($this->valueOptions()->lazy() as $name => $option) {
+            if ($option instanceof FlagOption) {
+                continue;
+            }
+            if ($defaultValues->containsKey($option->name())) {
+                continue;
+            }
+            $defaultValues->set($option->name(), Pair { $option->name(), $option->defaultValue() });
+        }
+
+        return $defaultValues->toImmVector();
+    }
+
     <<__Memoize>>
     private function valueOptions() : ImmMap<string, Option<mixed>>
     {

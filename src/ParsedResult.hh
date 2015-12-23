@@ -27,7 +27,7 @@ final class ParsedResult
         return $this->options->count();
     }
 
-    public function hasOption(string $name) : int
+    public function hasOption(string $name) : bool
     {
         return $this->options->containsKey($name);
     }
