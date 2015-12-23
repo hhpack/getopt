@@ -3,8 +3,9 @@
 namespace hhpack\getopt;
 
 use LogicException;
+use IteratorAggregate;
 
-final class ArgumentsConsumer
+final class ArgumentsConsumer implements IteratorAggregate<string>
 {
 
     private int $position = 0;
@@ -43,6 +44,11 @@ final class ArgumentsConsumer
 
         $nextAt = $this->position + 1;
         return $this->argv->at($nextAt);
+    }
+
+    public function getIterator() : KeyedIterator<int, string>
+    {
+        return $this->argv->getIterator();
     }
 
     public function consume() : void
