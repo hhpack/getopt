@@ -95,10 +95,7 @@ final class OptionSet
     {
         $defaultValues = Map {};
 
-        foreach ($this->valueOptions()->lazy() as $name => $option) {
-            if ($option instanceof FlagOption) {
-                continue;
-            }
+        foreach ($this->options->lazy() as $name => $option) {
             if ($defaultValues->containsKey($option->name())) {
                 continue;
             }
