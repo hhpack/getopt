@@ -35,4 +35,32 @@ describe(OptionSet::class, function () {
       });
     });
   });
+  describe('hasValueOption', function () {
+    context('when have value option', function () {
+      beforeEach(function () {
+        $this->options = new OptionSet([
+          new ValueOption('name', 'n', 'name', 'foo')
+        ]);
+      });
+      it('return true', function () {
+        $result = $this->options->hasValueOption('n'); // short name
+        expect($result)->toBeTrue();
+
+        $result = $this->options->hasValueOption('name'); // long name
+        expect($result)->toBeTrue();
+      });
+    });
+    context('when have not value option', function () {
+      beforeEach(function () {
+        $this->options = new OptionSet([]);
+      });
+      it('return false', function () {
+        $result = $this->options->hasFlagOption('n'); // short name
+        expect($result)->toBeFalse();
+
+        $result = $this->options->hasFlagOption('name'); // long name
+        expect($result)->toBeFalse();
+      });
+    });
+  });
 });
