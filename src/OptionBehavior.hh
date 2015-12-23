@@ -9,7 +9,7 @@ trait OptionBehavior<T>
     private string $name;
     private string $shortName;
     private string $longName;
-    private bool $required = false;
+    private ArgumentType $required = ArgumentType::Required;
     private T $defaultValue;
 
     public function name() : string
@@ -29,7 +29,7 @@ trait OptionBehavior<T>
 
     public function isRequired() : bool
     {
-        return $this->required;
+        return $this->required === ArgumentType::Required;
     }
 
     public function isOptional() : bool

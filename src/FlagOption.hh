@@ -19,7 +19,7 @@ final class FlagOption implements Option<bool>
         $this->shortName = $shortName;
         $this->longName = $longName;
         $this->defaultValue = false;
-        $this->required = false;
+        $this->required = ArgumentType::Optional;
     }
 
     public function isNoArgument() : bool
