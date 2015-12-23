@@ -16,8 +16,9 @@ final class OptionSet
         $namedOptions = Map {};
 
         foreach ($options as $option) {
-            $namedOptions->add(Pair { $option->name(), $option });
+            $namedOptions->setAll( $option->toImmMap() );
         }
+
         $this->options = $namedOptions->toImmMap();
     }
 
@@ -49,13 +50,12 @@ final class OptionSet
     {
         $option = null;
         $names = func_get_args();
-        $options = $this->options();
 
         foreach ($names as $name) {
-            if (!$options->containsKey($name)) {
+            if (!$this->options->containsKey($name)) {
                 continue;
             }
-            $option = $options->at($name);
+            $option = $this->options->at($name);
             break;
         }
 
@@ -68,8 +68,6 @@ final class OptionSet
 
     public function validate(array<string> $argv = []) : void
     {
-        $options = $this->options();
-
         foreach ($argv as $arg) {
             $matches = [];
 
@@ -79,7 +77,7 @@ final class OptionSet
 
             $name = array_pop($matches);
 
-            if ($options->containsKey($name)) {
+            if ($this->options->containsKey($name)) {
                 continue;
             }
             throw new LogicException('have not option ' . $name);
@@ -136,20 +134,6 @@ final class OptionSet
         }
 
         return $optionNames->toImmSet();
-    }
-
-    <<__Memoize>>
-    private function options() : ImmMap<string, Option<mixed>>
-    {
-        $namedOptions = Map {};
-
-        foreach ($this->options->values() as $option) {
-            foreach ($option->names() as $name) {
-                $namedOptions->set($name, $option);
-            }
-        }
-
-        return $namedOptions->toImmMap();
     }
 
 }

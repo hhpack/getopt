@@ -53,6 +53,14 @@ trait OptionBehavior<T>
         yield Pair { $this->longName(), $this };
     }
 
+    public function toImmMap() : ImmMap<string, Option<T>>
+    {
+        return ImmMap {
+            $this->shortName() => $this,
+            $this->longName() => $this
+        };
+    }
+
     public function matchesName(string $name) : bool
     {
         $pattern = '/^(-' . $this->shortName() . '|--' . $this->longName() . '$)/';

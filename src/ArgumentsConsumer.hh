@@ -12,7 +12,7 @@ final class ArgumentsConsumer implements IteratorAggregate<string>
     private ImmVector<string> $argv;
 
     public function __construct(
-        ArgumentOptions $options,
+        OptionSet $options,
         Traversable<string> $argv = []
     )
     {

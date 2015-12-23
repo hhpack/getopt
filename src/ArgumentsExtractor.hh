@@ -15,7 +15,7 @@ final class ArgumentsExtractor implements ConstCollection<string>
     private ImmVector<string> $argv;
 
     public function __construct(
-        private ArgumentOptions $options,
+        private OptionSet $options,
         Traversable<string> $argv
     )
     {
