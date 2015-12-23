@@ -62,5 +62,30 @@ describe(ArgumentsExtractor::class, function () {
         expect($this->extractor->at(1))->toBe('-V');
       });
     });
+    context('when --no-name', function () {
+      beforeEach(function () {
+        $this->args = [ '--no-name' ];
+        $this->options = new ArgumentOptions([
+          new FlagOption('noName', 'N', 'no-name')
+        ]);
+        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+      });
+      it('return extract arguments', function () {
+        expect($this->extractor->at(0))->toBe('--no-name');
+      });
+    });
+    context('when --long-name foo', function () {
+      beforeEach(function () {
+        $this->args = [ '--long-name', 'foo' ];
+        $this->options = new ArgumentOptions([
+          new FlagOption('longName', 'N', 'long-name')
+        ]);
+        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+      });
+      it('return extract arguments', function () {
+        expect($this->extractor->at(0))->toBe('--long-name');
+        expect($this->extractor->at(1))->toBe('foo');
+      });
+    });
   });
 });
