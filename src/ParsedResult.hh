@@ -27,4 +27,14 @@ final class ParsedResult
         return $this->options->count();
     }
 
+    public function hasOption(string $name) : int
+    {
+        return $this->options->containsKey($name);
+    }
+
+    public function getOption(string $name) : mixed
+    {
+        return $this->options->at($name);
+    }
+
 }

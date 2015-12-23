@@ -22,6 +22,7 @@ describe(ArgumentParser::class, function () {
 
       expect($result->argumentCount())->toBe(0);
       expect($result->optionCount())->toBe(1);
+      expect($result->getOption('name'))->toBe('foo');
     });
   });
 });
