@@ -3,16 +3,16 @@
 namespace hhpack\getopt\spec;
 
 use hhpack\getopt\ArgumentsExtractor;
-use hhpack\getopt\ArgumentOptions;
+use hhpack\getopt\OptionSet;
 use hhpack\getopt\FlagOption;
 use hhpack\getopt\ValueOption;
 
 describe(ArgumentsExtractor::class, function () {
-  describe('items', function () {
+  describe('at', function () {
     context('when -nfoo', function () {
       beforeEach(function () {
         $this->args = [ '-nfoo' ];
-        $this->options = new ArgumentOptions([
+        $this->options = new OptionSet([
           new ValueOption('name', 'n', 'name', 'foo', false)
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
@@ -25,7 +25,7 @@ describe(ArgumentsExtractor::class, function () {
     context('when -n=foo', function () {
       beforeEach(function () {
         $this->args = [ '-n=foo' ];
-        $this->options = new ArgumentOptions([
+        $this->options = new OptionSet([
           new ValueOption('name', 'n', 'name', 'foo', false)
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
@@ -38,7 +38,7 @@ describe(ArgumentsExtractor::class, function () {
     context('when --name=foo', function () {
       beforeEach(function () {
         $this->args = [ '--name=foo' ];
-        $this->options = new ArgumentOptions([
+        $this->options = new OptionSet([
           new ValueOption('name', 'n', 'name', 'foo', false)
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
@@ -51,7 +51,7 @@ describe(ArgumentsExtractor::class, function () {
     context('when -dv', function () {
       beforeEach(function () {
         $this->args = [ '-dV' ];
-        $this->options = new ArgumentOptions([
+        $this->options = new OptionSet([
           new FlagOption('debug', 'd', 'debug'),
           new FlagOption('verbose', 'V', 'verbose')
         ]);
@@ -65,7 +65,7 @@ describe(ArgumentsExtractor::class, function () {
     context('when --no-name', function () {
       beforeEach(function () {
         $this->args = [ '--no-name' ];
-        $this->options = new ArgumentOptions([
+        $this->options = new OptionSet([
           new FlagOption('noName', 'N', 'no-name')
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
@@ -77,7 +77,7 @@ describe(ArgumentsExtractor::class, function () {
     context('when --long-name foo', function () {
       beforeEach(function () {
         $this->args = [ '--long-name', 'foo' ];
-        $this->options = new ArgumentOptions([
+        $this->options = new OptionSet([
           new FlagOption('longName', 'N', 'long-name')
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);

@@ -4,7 +4,7 @@ namespace hhpack\getopt;
 
 use LogicException;
 
-final class ArgumentOptions
+final class OptionSet
 {
 
     private ImmMap<string, Option<mixed>> $options;
