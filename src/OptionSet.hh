@@ -66,24 +66,6 @@ final class OptionSet
         return $option;
     }
 
-    public function validate(array<string> $argv = []) : void
-    {
-        foreach ($argv as $arg) {
-            $matches = [];
-
-            if (preg_match('/^(-|--)(\w+)=?/', $arg, $matches) !== 1) {
-                continue;
-            }
-
-            $name = array_pop($matches);
-
-            if ($this->options->containsKey($name)) {
-                continue;
-            }
-            throw new LogicException('have not option ' . $name);
-        }
-    }
-
     public function hasFlagOption(string $name) : bool
     {
         return $this->flagOptions()->containsKey($name);

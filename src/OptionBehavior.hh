@@ -63,7 +63,7 @@ trait OptionBehavior<T>
 
     public function matchesName(string $name) : bool
     {
-        $pattern = '/^(-' . $this->shortName() . '|--' . $this->longName() . '$)/';
+        $pattern = '/^(-' . $this->shortName() . '|--' . $this->longName() . ')$/';
         return preg_match($pattern, $name) === 1;
     }
 

@@ -42,6 +42,7 @@ final class ValueOption implements Option<string>
         }
 
         $next = $consumer->next();
+        $consumer->consume();
 
         if (preg_match('/^(-|--)/', $next) === 1) {
             throw new LogicException('have not argument value');
