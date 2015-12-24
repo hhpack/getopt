@@ -5,7 +5,7 @@ namespace hhpack\getopt\spec;
 use hhpack\getopt\ArgumentParser;
 use hhpack\getopt\OptionSet;
 use hhpack\getopt\FlagOption;
-use hhpack\getopt\ValueOption;
+use hhpack\getopt\StringOption;
 use hhpack\getopt\ArgumentType;
 
 describe(ArgumentParser::class, function () {
@@ -13,7 +13,7 @@ describe(ArgumentParser::class, function () {
     beforeEach(function () {
       $this->args = [ '-nfoo' ];
       $this->options = new OptionSet([
-        new ValueOption('name', 'n', 'name', 'foo', ArgumentType::Optional)
+        new StringOption('name', 'n', 'name', 'foo', ArgumentType::Optional)
       ]);
       $this->parser = new ArgumentParser($this->options);
     });
