@@ -14,7 +14,7 @@ final class ValueOption implements Option<string>
         string $shortName,
         string $longName,
         string $defaultValue,
-        ArgumentType $required = ArgumentType::Required
+        ArgumentType $required = ArgumentType::Optional
     )
     {
         $this->name = $name;
