@@ -23,6 +23,11 @@
       "hhpack\\getopt\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "hhpack\\getopt\\spec\\mock\\": "spec/mock"
+    }
+  },
   "scripts": {
     "test": "vendor/bin/peridot -c peridot.hh --grep *Spec.hh spec -r dot",
     "check": "./typecheck"
