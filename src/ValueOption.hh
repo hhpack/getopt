@@ -30,7 +30,7 @@ abstract class ValueOption<T> implements Option<T>
         return false;
     }
 
-    protected function consumeArguments(ArgumentsConsumer $consumer) : Pair <string, string>
+    protected function consumeArguments(ArgumentsConsumable<string> $consumer) : Pair <string, string>
     {
         $name = $consumer->current();
 

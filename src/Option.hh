@@ -14,6 +14,6 @@ interface Option<T>
     public function isNoArgument() : bool;
     public function defaultValue() : T;
     public function matchesName(string $name) : bool;
-    public function consume(ArgumentsConsumer $consumer) : Pair <string, T>;
+    public function consume(ArgumentsConsumable<string> $consumer) : Pair <string, T>;
     public function toImmMap() : ImmMap<string, Option<T>>;
 }

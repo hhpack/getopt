@@ -31,7 +31,7 @@ final class FlagOption implements Option<bool>
      * -d
      * --debug
      */
-    public function consume(ArgumentsConsumer $consumer) : Pair <string, bool>
+    public function consume(ArgumentsConsumable<string> $consumer) : Pair <string, bool>
     {
         $value = $consumer->current();
 
