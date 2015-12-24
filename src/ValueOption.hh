@@ -4,16 +4,17 @@ namespace hhpack\getopt;
 
 use LogicException;
 
-final class ValueOption implements Option<string>
+<<__ConsistentConstruct>>
+abstract class ValueOption<T> implements Option<T>
 {
 
-    use OptionBehavior<string>;
+    use OptionBehavior<T>;
 
     public function __construct(
         string $name,
         string $shortName,
         string $longName,
-        string $defaultValue,
+        T $defaultValue,
         ArgumentType $required = ArgumentType::Optional
     )
     {
@@ -29,7 +30,7 @@ final class ValueOption implements Option<string>
         return false;
     }
 
-    public function consume(ArgumentsConsumer $consumer) : Pair <string, string>
+    protected function consumeArguments(ArgumentsConsumer $consumer) : Pair <string, string>
     {
         $name = $consumer->current();
 
