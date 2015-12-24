@@ -5,7 +5,7 @@ namespace hhpack\getopt;
 use LogicException;
 use IteratorAggregate;
 
-final class ArgumentsConsumer implements IteratorAggregate<string>
+final class ArgumentsConsumer implements ArgumentsConsumable<string>, IteratorAggregate<string>
 {
 
     private int $position = 0;
