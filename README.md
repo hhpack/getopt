@@ -1,5 +1,7 @@
 # getopt
 
+[![Build Status](https://travis-ci.org/hhpack/getopt.svg?branch=master)](https://travis-ci.org/hhpack/getopt)
+
 ## Basic usage
 
 ```hack
