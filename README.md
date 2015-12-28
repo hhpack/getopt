@@ -54,7 +54,7 @@ if ($result->hasOption('name')) {
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<string>|flags of option, example: -d, --debug|
+|flags|Traversable<_string_>|flags of option, example: -d, --debug|
 |defaultValue|bool|default value of option|
 
 #### int_option
@@ -62,7 +62,7 @@ if ($result->hasOption('name')) {
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<string>|flags of option, example: -d, --debug|
+|flags|Traversable<_string_>|flags of option, example: -d, --debug|
 |defaultValue|int|default value of option|
 |required|ValueType| required or optional option |
 
@@ -71,7 +71,7 @@ if ($result->hasOption('name')) {
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<string>|flags of option, example: -d, --debug|
+|flags|Traversable<_string_>|flags of option, example: -d, --debug|
 |defaultValue|float|default value of option|
 |required|ValueType| required or optional option |
 
@@ -80,7 +80,7 @@ if ($result->hasOption('name')) {
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<string>|flags of option, example: -d, --debug|
+|flags|Traversable<_string_>|flags of option, example: -d, --debug|
 |defaultValue|string|default value of option|
 |required|ValueType| required or optional option |
 
