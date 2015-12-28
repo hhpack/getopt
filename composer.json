@@ -21,7 +21,8 @@
   "autoload": {
     "psr-4": {
       "hhpack\\getopt\\": "src"
-    }
+    },
+    "files": [ "src/bootstrap.hh", "src/shortchut.hh" ]
   },
   "autoload-dev": {
     "psr-4": {

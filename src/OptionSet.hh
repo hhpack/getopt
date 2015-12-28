@@ -23,10 +23,10 @@ final class OptionSet
     }
 
     /**
-     * $options->hasOption('c');
-     * $options->hasOption('c', 'config');
+     * $options->contains('-c');
+     * $options->contains('-c', '--config');
      */
-    public function hasOption(...) : bool
+    public function contains(...) : bool
     {
         $included = false;
         $optionNames = $this->optionNames();
@@ -43,52 +43,38 @@ final class OptionSet
     }
 
     /**
-     * $options->get('c');
-     * $options->get('c', 'config');
+     * $options->get('-c');
+     * $options->get('--config');
      */
-    public function get(...) : Option<mixed>
+    public function get(string $name) : Option<mixed>
     {
-        $option = null;
-        $names = func_get_args();
-
-        foreach ($names as $name) {
-            if (!$this->options->containsKey($name)) {
-                continue;
-            }
-            $option = $this->options->at($name);
-            break;
+        if (!$this->options->containsKey($name)) {
+            throw new LogicException('have not option ' . $name);
         }
-
-        if ($option === null) {
-            throw new LogicException('have not option ' . implode(', ', $names));
-        }
-
-        return $option;
+        return $this->options->at($name);
     }
 
-    public function hasFlagOption(string $name) : bool
+    public function hasNoValue(string $name) : bool
     {
-        return $this->flagOptions()->containsKey($name);
+        return $this->noValues()->containsKey($name);
     }
 
     <<__Memoize>>
-    private function flagOptions() : ImmMap<string, Option<bool>>
+    public function noValues() : ImmMap<string, Option<mixed>>
     {
-        $options = Map {};
+        $result = Map {};
+        $selector = ($option) ==> !$option->isTakesValue();
+        $options = $this->options->filter($selector)->values();
 
-        foreach ($this->options->values() as $option) {
-            if (!($option instanceof FlagOption)) {
-                continue;
-            }
-            $options->addAll( $option->options() );
+        foreach ($options as $option) {
+            $result->addAll( $option->options() );
         }
-
-        return $options->toImmMap();
+        return $result->toImmMap();
     }
 
-    public function hasValueOption(string $name) : bool
+    public function hasOneValue(string $name) : bool
     {
-        return $this->valueOptions()->containsKey($name);
+        return $this->oneValues()->containsKey($name);
     }
 
     public function defaultValues() : ImmVector<Pair<string, mixed>>
@@ -106,18 +92,16 @@ final class OptionSet
     }
 
     <<__Memoize>>
-    private function valueOptions() : ImmMap<string, Option<mixed>>
+    public function oneValues() : ImmMap<string, Option<mixed>>
     {
-        $options = Map {};
+        $result = Map {};
+        $selector = ($option) ==> $option->isTakesValue();
+        $options = $this->options->filter($selector)->values();
 
-        foreach ($this->options->values() as $option) {
-            if ($option instanceof FlagOption) {
-                continue;
-            }
-            $options->addAll( $option->options() );
+        foreach ($options as $option) {
+            $result->addAll( $option->options() );
         }
-
-        return $options->toImmMap();
+        return $result->toImmMap();
     }
 
     <<__Memoize>>
@@ -126,7 +110,7 @@ final class OptionSet
         $optionNames = Set {};
 
         foreach ($this->options->values() as $option) {
-            $optionNames->addAll($option->names());
+            $optionNames->addAll($option->flags());
         }
 
         return $optionNames->toImmSet();

@@ -5,7 +5,6 @@ namespace hhpack\getopt\spec\mock;
 use hhpack\getopt\ArgumentsConsumable;
 use LogicException;
 
-// <<__MockClass>> 3.9.1 not supported....
 final class ArgumentsConsumer implements ArgumentsConsumable<string>
 {
 

@@ -2,18 +2,21 @@
 
 namespace hhpack\getopt;
 
-final class ArgumentParser implements Parser<Traversable<string>, ParsedResult>
+final class OptionParser implements Parser<Traversable<string>, ParsedResult>
 {
 
+    private OptionSet $options;
+
     public function __construct(
-        private OptionSet $options
+        Traversable<Option<mixed>> $options = []
     )
     {
+        $this->options = new OptionSet($options); 
     }
 
     public function parse(Traversable<string> $input = []) : ParsedResult
     {
-        $arguments = Vector {};
+        $args = Vector {};
         $options = Vector {};
         $options->addAll($this->options->defaultValues());
 
@@ -23,12 +26,12 @@ final class ArgumentParser implements Parser<Traversable<string>, ParsedResult>
             $matches = [];
             $value = $consumer->current();
 
-            if (preg_match('/^(-|--)(\w+)=?/', $value, $matches) !== 1) {
-                $arguments->add($value);
+            if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
+                $args->add($value);
                 $consumer->consume();
                 continue;
             }
-            list($_, $_, $name) = $matches;
+            list($_, $name) = $matches;
 
             $option = $this->options->get($name);
             $result = $option->consume($consumer);
@@ -36,7 +39,7 @@ final class ArgumentParser implements Parser<Traversable<string>, ParsedResult>
             $options->add($result);
         }
 
-        return new ParsedResult($arguments, $options);
+        return new ParsedResult($args, $options);
     }
 
 }

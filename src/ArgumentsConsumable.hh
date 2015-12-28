@@ -2,9 +2,6 @@
 
 namespace hhpack\getopt;
 
-use LogicException;
-use IteratorAggregate;
-
 interface ArgumentsConsumable<T>
 {
     public function valid() : bool;

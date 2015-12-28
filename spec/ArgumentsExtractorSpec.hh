@@ -4,9 +4,11 @@ namespace hhpack\getopt\spec;
 
 use hhpack\getopt\ArgumentsExtractor;
 use hhpack\getopt\OptionSet;
-use hhpack\getopt\FlagOption;
-use hhpack\getopt\StringOption;
-use hhpack\getopt\ArgumentType;
+use hhpack\getopt\OptionValue;
+use hhpack\getopt\StringConsumeHandler;
+use hhpack\getopt\BoolConsumeHandler;
+use hhpack\getopt\ValueType;
+use hhpack\getopt\NamedMatcher;
 
 describe(ArgumentsExtractor::class, function () {
   describe('at', function () {
@@ -14,7 +16,11 @@ describe(ArgumentsExtractor::class, function () {
       beforeEach(function () {
         $this->args = [ '-nfoo' ];
         $this->options = new OptionSet([
-          new StringOption('name', 'n', 'name', 'foo', ArgumentType::Optional)
+          new OptionValue(
+            new StringConsumeHandler('name', [ '-n', '--name' ]),
+            'bar',
+            ValueType::Optional
+          )
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
@@ -27,7 +33,11 @@ describe(ArgumentsExtractor::class, function () {
       beforeEach(function () {
         $this->args = [ '-n=foo' ];
         $this->options = new OptionSet([
-          new StringOption('name', 'n', 'name', 'foo', ArgumentType::Optional)
+          new OptionValue(
+            new StringConsumeHandler('name', [ '-n', '--name' ]),
+            'foo',
+            ValueType::Optional
+          )
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
@@ -40,7 +50,11 @@ describe(ArgumentsExtractor::class, function () {
       beforeEach(function () {
         $this->args = [ '--name=foo' ];
         $this->options = new OptionSet([
-          new StringOption('name', 'n', 'name', 'foo', ArgumentType::Optional)
+          new OptionValue(
+            new StringConsumeHandler('name', [ '-n', '--name' ]),
+            'foo',
+            ValueType::Optional
+          )
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
@@ -53,8 +67,16 @@ describe(ArgumentsExtractor::class, function () {
       beforeEach(function () {
         $this->args = [ '-dV' ];
         $this->options = new OptionSet([
-          new FlagOption('debug', 'd', 'debug'),
-          new FlagOption('verbose', 'V', 'verbose')
+          new OptionValue(
+            new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
+            false,
+            ValueType::Optional
+          ),
+          new OptionValue(
+            new BoolConsumeHandler('verbose', [ '-V', '--verbose' ]),
+            false,
+            ValueType::Optional
+          )
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
@@ -67,7 +89,11 @@ describe(ArgumentsExtractor::class, function () {
       beforeEach(function () {
         $this->args = [ '--no-name' ];
         $this->options = new OptionSet([
-          new FlagOption('noName', 'N', 'no-name')
+          new OptionValue(
+            new BoolConsumeHandler('noName', [ '-N', '--no-name' ]),
+            false,
+            ValueType::Optional
+          )
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });
@@ -79,7 +105,11 @@ describe(ArgumentsExtractor::class, function () {
       beforeEach(function () {
         $this->args = [ '--long-name', 'foo' ];
         $this->options = new OptionSet([
-          new FlagOption('longName', 'N', 'long-name')
+          new OptionValue(
+            new BoolConsumeHandler('longName', [ '-N', '--long-name' ]),
+            false,
+            ValueType::Optional
+          )
         ]);
         $this->extractor = new ArgumentsExtractor($this->options, $this->args);
       });

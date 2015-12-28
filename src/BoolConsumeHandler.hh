@@ -4,42 +4,31 @@ namespace hhpack\getopt;
 
 use LogicException;
 
-final class FlagOption implements Option<bool>
+final class BoolConsumeHandler extends ArgumentConsumeHandler<bool>
 {
-
-    use OptionBehavior<bool>;
 
     public function __construct(
         string $name,
-        string $shortName,
-        string $longName
+        Traversable<string> $flags
     )
     {
         $this->name = $name;
-        $this->shortName = $shortName;
-        $this->longName = $longName;
-        $this->defaultValue = false;
-        $this->required = ArgumentType::Optional;
+        $this->flags = ImmVector::fromItems($flags)->map(($flag) ==> {
+            return new FlagMatcher($flag);
+        });
+        $this->consumeType = ConsumeType::NoValue;
     }
 
-    public function isNoArgument() : bool
-    {
-        return true;
-    }
-
-    /**
-     * -d
-     * --debug
-     */
     public function consume(ArgumentsConsumable<string> $consumer) : Pair <string, bool>
     {
         $value = $consumer->current();
 
-        if (!$this->matchesName($value))  {
+        if (!$this->matches($value))  {
             throw new LogicException('Option name does not match');
         }
 
         $consumer->consume();
+
         return Pair { $this->name(), true };
     }
 

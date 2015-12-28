@@ -2,7 +2,7 @@
 
 namespace hhpack\getopt;
 
-enum ArgumentType : int
+enum ValueType : int
 {
     Required = 1;
     Optional = 0;

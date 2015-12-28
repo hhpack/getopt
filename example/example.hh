@@ -4,16 +4,29 @@ namespace hhpack\getopt\example;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use hhpack\getopt\ArgumentParser;
+use hhpack\getopt as cli;
+use hhpack\getopt\OptionParser;
 use hhpack\getopt\OptionSet;
-use hhpack\getopt\ValueOption;
-use hhpack\getopt\FlagOption;
+use hhpack\getopt\ValueType;
 
-$parser = new ArgumentParser(new OptionSet([
-    new FlagOption('help', 'h', 'help'), // dest=help, shortname=h, longname=help
-    new FlagOption('version', 'v', 'version'), // dest=version, shortname=v, longname=version
-    new ValueOption('name', 'n', 'name', 'test') // dest=name, shortname=n, longname=name
-]));
+$parser = new OptionParser([
+  cli\bool_option(shape(
+    'name' => 'help',
+    'flags' => [ '-h', '--help' ],
+    'defaultValue' => false
+  )),
+  cli\bool_option(shape(
+    'name' => 'version',
+    'flags' => [ '-v', '--version' ],
+    'defaultValue' => false
+  )),
+  cli\string_option(shape(
+    'name' => 'name',
+    'flags' => [ '-n', '--name' ],
+    'defaultValue' => 'test',
+    'required' => ValueType::Optional
+  ))
+]);
 
 $result = $parser->parse($argv);
 

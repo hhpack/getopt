@@ -108,14 +108,15 @@ final class ArgumentsExtractor implements ConstCollection<string>
 
         while (strlen($remainFlags) > 0) {
             $flag = substr($remainFlags, 0, 1);
+            $shortName = '-' . $flag;
 
-            if ($this->options->hasFlagOption($flag)) { //has options rule?
-                $arguments->add('-' . $flag);
+            if ($this->options->hasNoValue($shortName)) { //has options rule?
+                $arguments->add($shortName);
                 $remainFlags = substr($remainFlags, 1);
                 continue;
-            } else if ($this->options->hasValueOption($flag)) { //has args?
+            } else if ($this->options->hasOneValue($shortName)) { //has args?
                 $value = substr($remainFlags, 1);
-                $arguments->addAll([ '-' . $flag, $value ]);
+                $arguments->addAll([ $shortName, $value ]);
                 break;
             } else {
                 throw new RuntimeException(sprintf('%s is not a valid option', $flag));

@@ -3,26 +3,29 @@
 namespace hhpack\getopt\spec;
 
 use hhpack\getopt\OptionSet;
-use hhpack\getopt\FlagOption;
-use hhpack\getopt\StringOption;
-use hhpack\getopt\ArgumentType;
+use hhpack\getopt\ValueType;
+use hhpack\getopt\NamedMatcher;
+use hhpack\getopt\OptionValue;
+use hhpack\getopt\StringConsumeHandler;
+use hhpack\getopt\BoolConsumeHandler;
 
 describe(OptionSet::class, function () {
   describe('hasOption', function () {
     context('when have option', function () {
       beforeEach(function () {
         $this->options = new OptionSet([
-          new FlagOption('debug', 'd', 'debug')
+          new OptionValue(
+            new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
+            false,
+            ValueType::Optional
+          )
         ]);
       });
       it('return true', function () {
-        $result = $this->options->hasOption('d'); // short name
+        $result = $this->options->contains('-d'); // short name
         expect($result)->toBeTrue();
 
-        $result = $this->options->hasOption('debug'); // long name
-        expect($result)->toBeTrue();
-
-        $result = $this->options->hasOption('d', 'debug'); // short name and short name
+        $result = $this->options->contains('--debug'); // long name
         expect($result)->toBeTrue();
       });
     });
@@ -31,17 +34,21 @@ describe(OptionSet::class, function () {
     context('when have option', function () {
       beforeEach(function () {
         $this->options = new OptionSet([
-          new FlagOption('debug', 'd', 'debug')
+          new OptionValue(
+            new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
+            false,
+            ValueType::Optional
+          )
         ]);
       });
       it('return option', function () {
-        $option = $this->options->get('d'); // short name
+        $option = $this->options->get('-d'); // short name
         expect($option->name())->toBe('debug');
 
-        $option = $this->options->get('debug'); // long name
+        $option = $this->options->get('--debug'); // long name
         expect($option->name())->toBe('debug');
 
-        $option = $this->options->get('d', 'debug'); // short name and short name
+        $option = $this->options->get('-d', '--debug'); // short name and short name
         expect($option->name())->toBe('debug');
       });
     });
@@ -50,14 +57,18 @@ describe(OptionSet::class, function () {
     context('when have flag option', function () {
       beforeEach(function () {
         $this->options = new OptionSet([
-          new FlagOption('debug', 'd', 'debug')
+          new OptionValue(
+            new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
+            false,
+            ValueType::Optional
+          )
         ]);
       });
       it('return true', function () {
-        $result = $this->options->hasFlagOption('d'); // short name
+        $result = $this->options->hasNoValue('-d'); // short name
         expect($result)->toBeTrue();
 
-        $result = $this->options->hasFlagOption('debug'); // long name
+        $result = $this->options->hasNoValue('--debug'); // long name
         expect($result)->toBeTrue();
       });
     });
@@ -66,10 +77,10 @@ describe(OptionSet::class, function () {
         $this->options = new OptionSet([]);
       });
       it('return false', function () {
-        $result = $this->options->hasFlagOption('d'); // short name
+        $result = $this->options->hasNoValue('-d'); // short name
         expect($result)->toBeFalse();
 
-        $result = $this->options->hasFlagOption('debug'); // long name
+        $result = $this->options->hasNoValue('--debug'); // long name
         expect($result)->toBeFalse();
       });
     });
@@ -78,14 +89,18 @@ describe(OptionSet::class, function () {
     context('when have value option', function () {
       beforeEach(function () {
         $this->options = new OptionSet([
-          new StringOption('name', 'n', 'name', 'foo', ArgumentType::Optional)
+          new OptionValue(
+            new StringConsumeHandler('name', [ '-n', '--name' ]),
+            'bar',
+            ValueType::Optional
+          )
         ]);
       });
       it('return true', function () {
-        $result = $this->options->hasValueOption('n'); // short name
+        $result = $this->options->hasOneValue('-n'); // short name
         expect($result)->toBeTrue();
 
-        $result = $this->options->hasValueOption('name'); // long name
+        $result = $this->options->hasOneValue('--name'); // long name
         expect($result)->toBeTrue();
       });
     });
@@ -94,10 +109,10 @@ describe(OptionSet::class, function () {
         $this->options = new OptionSet([]);
       });
       it('return false', function () {
-        $result = $this->options->hasFlagOption('n'); // short name
+        $result = $this->options->hasNoValue('-n'); // short name
         expect($result)->toBeFalse();
 
-        $result = $this->options->hasFlagOption('name'); // long name
+        $result = $this->options->hasNoValue('--name'); // long name
         expect($result)->toBeFalse();
       });
     });
