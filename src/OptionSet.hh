@@ -1,10 +1,20 @@
 <?hh //strict
 
+/**
+ * This file is part of hhpack\getopt package.
+ *
+ * (c) Noritaka Horio <holy.shared.design@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace hhpack\getopt;
 
 use LogicException;
+use ConstCollection;
 
-final class OptionSet
+final class OptionSet implements OptionCollection
 {
 
     private ImmMap<string, Option<mixed>> $options;
@@ -91,6 +101,30 @@ final class OptionSet
         return $defaultValues->toImmVector();
     }
 
+    public function isEmpty() : bool
+    {
+        return $this->options->isEmpty();
+    }
+
+    public function count() : int
+    {
+        return $this->options->count();
+    }
+
+    public function items() : Iterable<Option<mixed>>
+    {
+        $options = Map {};
+
+        foreach ($this->options->values() as $name => $option) {
+            if ($options->containsKey($option->name())) {
+                continue;
+            }
+            $options->set($option->name(), $option);
+        }
+
+        return $options->values()->items();
+    }
+
     <<__Memoize>>
     public function oneValues() : ImmMap<string, Option<mixed>>
     {
@@ -114,6 +148,22 @@ final class OptionSet
         }
 
         return $optionNames->toImmSet();
+    }
+
+    public function displayHelp() : void
+    {
+        fwrite(STDOUT, "Options:\n");
+
+        foreach ($this->items() as $option) {
+            $flags = $option->flags()->toValuesArray();
+            $helpMessage = $option->helpMessage();
+
+            fwrite(STDOUT, sprintf(
+                "  %s %s\n",
+                implode(', ', $flags),
+                $helpMessage
+            ));
+        }
     }
 
 }

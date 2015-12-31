@@ -10,7 +10,7 @@ use hhpack\getopt\StringConsumeHandler;
 use hhpack\getopt\BoolConsumeHandler;
 
 describe(OptionSet::class, function () {
-  describe('hasOption', function () {
+  describe('contains', function () {
     context('when have option', function () {
       beforeEach(function () {
         $this->options = new OptionSet([

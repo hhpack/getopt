@@ -3,7 +3,6 @@
 namespace hhpack\getopt\spec;
 
 use hhpack\getopt\OptionParser;
-use hhpack\getopt\OptionSet;
 use hhpack\getopt\ValueType;
 use hhpack\getopt\NamedMatcher;
 use hhpack\getopt\OptionValue;

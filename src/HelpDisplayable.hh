@@ -11,7 +11,7 @@
 
 namespace hhpack\getopt;
 
-interface Matcher
+interface HelpDisplayable 
 {
-    public function matches(string $name) : bool;
+    public function displayHelp() : void;
 }

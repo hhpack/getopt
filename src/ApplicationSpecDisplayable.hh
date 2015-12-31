@@ -11,7 +11,7 @@
 
 namespace hhpack\getopt;
 
-interface Matcher
+interface ApplicationSpecDisplayable extends HelpDisplayable
 {
-    public function matches(string $name) : bool;
+    public function displayVersion() : void;
 }

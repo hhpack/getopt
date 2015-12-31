@@ -1,5 +1,14 @@
 <?hh //strict
 
+/**
+ * This file is part of hhpack\getopt package.
+ *
+ * (c) Noritaka Horio <holy.shared.design@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace hhpack\getopt;
 
 /**
@@ -14,7 +23,12 @@ function bool_option(BoolOptionParameters $parameters) : Option<bool> {
         $parameters['name'],
         $parameters['flags']
     );
-    return new OptionValue($consumeHandler, $parameters['defaultValue'], ValueType::Optional); 
+    return new OptionValue(
+        $consumeHandler,
+        $parameters['defaultValue'],
+        ValueType::Optional,
+        $parameters['helpMessage']
+    ); 
 }
 
 /**
@@ -30,7 +44,12 @@ function string_option(StringOptionParameters $parameters) : Option<string> {
         $parameters['name'],
         $parameters['flags']
     );
-    return new OptionValue($consumeHandler, $parameters['defaultValue'], $parameters['required']); 
+    return new OptionValue(
+        $consumeHandler,
+        $parameters['defaultValue'],
+        $parameters['required'],
+        $parameters['helpMessage']
+    ); 
 }
 
 /**
@@ -46,7 +65,12 @@ function int_option(IntOptionParameters $parameters) : Option<int> {
         $parameters['name'],
         $parameters['flags']
     );
-    return new OptionValue($consumeHandler, $parameters['defaultValue'], $parameters['required']); 
+    return new OptionValue(
+        $consumeHandler,
+        $parameters['defaultValue'],
+        $parameters['required'],
+        $parameters['helpMessage']
+    ); 
 }
 
 /**
@@ -62,27 +86,10 @@ function float_option(FloatOptionParameters $parameters) : Option<float> {
         $parameters['name'],
         $parameters['flags']
     );
-    return new OptionValue($consumeHandler, $parameters['defaultValue'], $parameters['required']); 
-}
-
-/**
- * callback_option(shape(
- *   'name' => 'limit',
- *   'flags' => [ '-l', '--limit' ],
- *   'defaultValue' => 95.0,
- *   'required' => ValueType::Optional,
- *   'consumeType' => ArgumentType::Optional,
- *   'callback' => ($consumer) ==> {
- *
- *   }
- * ));
- */
-function callback_option(CallbackOptionParameters<mixed> $parameters) : Option<mixed> {
-    $consumeHandler = new CallbackConsumeHandler(
-        $parameters['name'],
-        $parameters['flags'],
-        $parameters['consumeType'],
-        $parameters['callback']
-    );
-    return new OptionValue($consumeHandler, $parameters['defaultValue'], $parameters['required']); 
+    return new OptionValue(
+        $consumeHandler,
+        $parameters['defaultValue'],
+        $parameters['required'],
+        $parameters['helpMessage']
+    ); 
 }
