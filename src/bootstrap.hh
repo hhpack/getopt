@@ -11,21 +11,12 @@
 
 namespace hhpack\getopt
 {
-    type BoolOptionParameters = shape(
-        'name' => string, // option name
-        'flags' => Traversable<string>, // example -f, --file
-        'defaultValue' => bool, // option default value
-        'helpMessage' => string
-    );
-
-    type OneArgOptionParameters<T> = shape(
+    type ArgOptionSpec<T> = (string, T, string);
+    type ArgOptionParameters<T> = shape(
         'name' => string, // option name
         'flags' => Traversable<string>, // example -f, --file
         'defaultValue' => T, // option default value
         'required' => ValueType, // option type, optional or required option
         'helpMessage' => string
     );
-    type StringOptionParameters = OneArgOptionParameters<string>;
-    type IntOptionParameters = OneArgOptionParameters<int>;
-    type FloatOptionParameters = OneArgOptionParameters<float>;
 }

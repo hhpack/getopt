@@ -9,25 +9,9 @@ use hhpack\getopt\OptionParser;
 use hhpack\getopt\ValueType;
 
 $parser = new OptionParser([
-  cli\bool_option(shape(
-    'name' => 'help',
-    'flags' => [ '-h', '--help' ],
-    'defaultValue' => false,
-    'helpMessage' => 'display help message'
-  )),
-  cli\bool_option(shape(
-    'name' => 'version',
-    'flags' => [ '-v', '--version' ],
-    'defaultValue' => false,
-    'helpMessage' => 'display version'
-  )),
-  cli\string_option(shape(
-    'name' => 'name',
-    'flags' => [ '-n', '--name' ],
-    'defaultValue' => 'test',
-    'required' => ValueType::Optional,
-    'helpMessage' => 'file name'
-  ))
+  cli\bool_option('help', '-h|--help', false, 'display help message'),
+  cli\bool_option('version', '-v|--version', false, 'display version'),
+  cli\string_option('name', '-n|--name=?', 'test', 'file name')
 ]);
 
 $result = $parser->parse($argv);

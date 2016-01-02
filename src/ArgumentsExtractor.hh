@@ -14,54 +14,16 @@ namespace hhpack\getopt;
 use RuntimeException;
 use ConstCollection;
 
-// The reason is unknown, because the error occurs at run time, you do not specify a ConstIndexAccess
-// Declaration of hhpack\getopt\ArgumentsExtractor::at() must be compatible with that of ConstIndexAccess::at() in /home/vagrant/shared/getopt/src/ArgumentsExtractor.hh on line 9
-// use ConstIndexAccess;
-
-final class ArgumentsExtractor implements ConstCollection<string>
+final class ArgumentsExtractor
 {
 
-    private ImmVector<string> $argv;
-
     public function __construct(
-        private OptionCollection $options,
-        Traversable<string> $argv
+        private OptionCollection $options
     )
     {
-        $this->argv = $this->extract($argv);
     }
 
-    public function items() : Iterable<string>
-    {
-        return $this->argv->items();
-    }
-
-    public function isEmpty() : bool
-    {
-        return $this->argv->isEmpty();
-    }
-
-    public function count() : int
-    {
-        return $this->argv->count();
-    }
-
-    public function at(int $k) : string
-    {
-        return $this->argv->at($k);
-    }
-
-    public function containsKey<Tu super int>(Tu $k) : bool
-    {
-        return $this->argv->containsKey($k);
-    }
-
-    public function get(int $k) : ?string
-    {
-        return $this->argv->get($k);
-    }
-
-    private function extract(Traversable<string> $argv) : ImmVector<string>
+    public function extract(Traversable<string> $argv) : ImmVector<string>
     {
         return $this->extractFlagSet($this->extractOptions($argv));
     }
@@ -133,6 +95,11 @@ final class ArgumentsExtractor implements ConstCollection<string>
         }
 
         return $arguments->toImmVector();
+    }
+
+    public static function fromOptions(OptionCollection $options) : this
+    {
+        return new static($options);
     }
 
 }

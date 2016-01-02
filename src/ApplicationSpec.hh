@@ -42,7 +42,7 @@ final class ApplicationSpec implements ApplicationSpecDisplayable
 
     private function displayUsage() : void
     {
-        fwrite(STDOUT, sprintf("Usage: %s [options]", $this->name()));
+        fwrite(STDOUT, sprintf("Usage: %s [options]\n", $this->name()));
         fwrite(STDOUT, PHP_EOL);
     }
 

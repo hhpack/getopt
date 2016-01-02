@@ -21,12 +21,10 @@ final class ArgumentsConsumer implements ArgumentsConsumable<string>, IteratorAg
     private ImmVector<string> $argv;
 
     public function __construct(
-        OptionCollection $options,
-        Traversable<string> $argv = []
+        Traversable<string> $extractedArgv = []
     )
     {
-        $extractor = new ArgumentsExtractor($options, $argv);
-        $this->argv = ImmVector::fromItems($extractor->items());
+        $this->argv = ImmVector::fromItems($extractedArgv);
     }
 
     public function valid() : bool

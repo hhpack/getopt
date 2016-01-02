@@ -11,85 +11,87 @@
 
 namespace hhpack\getopt;
 
-/**
- * bool_option(shape(
- *   'name' => 'debug',
- *   'flags' => [ '-d', '--debug' ],
- *   'defaultValue' => false
- * ));
- */
-function bool_option(BoolOptionParameters $parameters) : Option<bool> {
-    $consumeHandler = new BoolConsumeHandler(
-        $parameters['name'],
-        $parameters['flags']
-    );
-    return new OptionValue(
-        $consumeHandler,
-        $parameters['defaultValue'],
-        ValueType::Optional,
-        $parameters['helpMessage']
-    ); 
-}
+use LogicException;
 
 /**
- * string_option(shape(
- *   'name' => 'name',
- *   'flags' => [ '-n', '--name' ],
- *   'defaultValue' => 'foo',
- *   'required' => ValueType::Optional
- * ));
+ * -d|--debug  - flag
+ * -n|--name=? - optional 
+ * -n|--name=+ - required
  */
-function string_option(StringOptionParameters $parameters) : Option<string> {
-    $consumeHandler = new StringConsumeHandler(
-        $parameters['name'],
-        $parameters['flags']
-    );
-    return new OptionValue(
-        $consumeHandler,
-        $parameters['defaultValue'],
-        $parameters['required'],
-        $parameters['helpMessage']
-    ); 
+function parse_spec(string $spec) : (Traversable<string>, ValueType) {
+    $matches = [];
+
+    if (preg_match('/^(-[^-=\|]+)?\|?(--[^-=]+)?(=[\+\?])?$/', $spec, $matches) !== 1) {
+        throw new LogicException(sprintf("Invalid option specification, spec = %s", $spec));
+    }
+
+    if (count($matches) <= 3) {
+        $matches[] = null;
+    }
+
+    list($_, $shortName, $longName, $valueType) = $matches;
+
+    $flags = ImmSet::fromItems([ $shortName, $longName ])
+        ->map(($flag) ==> $flag === null ? '' : $flag)
+        ->filter(($flag) ==> $flag !== "");
+
+    $type = ValueType::Optional;
+
+    if ($valueType !== null) {
+        $type = ValueType::assert(substr($valueType, 1));
+    }
+
+    return tuple( $flags, $type );
 }
 
-/**
- * int_option(shape(
- *   'name' => 'limit',
- *   'flags' => [ '-l', '--limit' ],
- *   'defaultValue' => 100,
- *   'required' => ValueType::Optional
- * ));
- */
-function int_option(IntOptionParameters $parameters) : Option<int> {
-    $consumeHandler = new IntConsumeHandler(
-        $parameters['name'],
-        $parameters['flags']
-    );
+function bool_option(string $name, string $spec, bool $defaultValue, string $helpMessage) : Option<bool> {
+    list($flags, $valueType) = parse_spec($spec);
+
+    $handler = new BoolConsumeHandler($name, $flags);
+
     return new OptionValue(
-        $consumeHandler,
-        $parameters['defaultValue'],
-        $parameters['required'],
-        $parameters['helpMessage']
-    ); 
+        $handler,
+        $defaultValue,
+        $valueType,
+        $helpMessage
+    );
 }
 
-/**
- * float_option(shape(
- *   'name' => 'limit',
- *   'flags' => [ '-l', '--limit' ],
- *   'defaultValue' => 95.0,
- *   'required' => ValueType::Optional
- * ));
- */
-function float_option(FloatOptionParameters $parameters) : Option<float> {
-    $consumeHandler = new FloatConsumeHandler(
-        $parameters['name'],
-        $parameters['flags']
-    );
+function string_option(string $name, string $spec, string $defaultValue, string $helpMessage) : Option<string> {
+    list($flags, $valueType) = parse_spec($spec);
+
+    $handler = new StringConsumeHandler($name, $flags);
+
     return new OptionValue(
-        $consumeHandler,
-        $parameters['defaultValue'],
-        $parameters['required'],
-        $parameters['helpMessage']
-    ); 
+        $handler,
+        $defaultValue,
+        $valueType,
+        $helpMessage
+    );
+}
+
+function int_option(string $name, string $spec, int $defaultValue, string $helpMessage) : Option<int> {
+    list($flags, $valueType) = parse_spec($spec);
+
+    $handler = new IntConsumeHandler($name, $flags);
+
+    return new OptionValue(
+        $handler,
+        $defaultValue,
+        $valueType,
+        $helpMessage
+    );
+}
+
+function float_option(string $name, string $spec, float $defaultValue, string $helpMessage) : Option<float> {
+    list($flags, $valueType) = parse_spec($spec);
+
+    $handler = new FloatConsumeHandler($name, $flags);
+
+    return new OptionValue(
+        $handler,
+        $defaultValue,
+        $valueType,
+        $helpMessage
+    );
 }

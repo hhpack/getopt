@@ -31,6 +31,11 @@ final class ParsedResult
         return $this->args->count();
     }
 
+    public function arguments() : Iterable<string>
+    {
+        return $this->args->items();
+    }
+
     public function optionCount() : int
     {
         return $this->options->count();

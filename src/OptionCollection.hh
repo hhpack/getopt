@@ -22,4 +22,5 @@ interface OptionCollection extends ConstCollection<Option<mixed>>, HelpDisplayab
     public function hasOneValue(string $name) : bool;
     public function defaultValues() : ImmVector<Pair<string, mixed>>;
     public function oneValues() : ImmMap<string, Option<mixed>>;
+    public function validate(Traversable<string> $args) : void;
 }

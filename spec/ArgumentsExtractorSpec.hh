@@ -22,11 +22,12 @@ describe(ArgumentsExtractor::class, function () {
             ValueType::Optional
           )
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+        $this->extractor = new ArgumentsExtractor($this->options);
       });
       it('return extract arguments', function () {
-        expect($this->extractor->at(0))->toBe('-n');
-        expect($this->extractor->at(1))->toBe('foo');
+        $argv = $this->extractor->extract($this->args);
+        expect($argv->at(0))->toBe('-n');
+        expect($argv->at(1))->toBe('foo');
       });
     });
     context('when -n=foo', function () {
@@ -39,11 +40,12 @@ describe(ArgumentsExtractor::class, function () {
             ValueType::Optional
           )
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+        $this->extractor = new ArgumentsExtractor($this->options);
       });
       it('return extract arguments', function () {
-        expect($this->extractor->at(0))->toBe('-n');
-        expect($this->extractor->at(1))->toBe('foo');
+        $argv = $this->extractor->extract($this->args);
+        expect($argv->at(0))->toBe('-n');
+        expect($argv->at(1))->toBe('foo');
       });
     });
     context('when --name=foo', function () {
@@ -56,11 +58,12 @@ describe(ArgumentsExtractor::class, function () {
             ValueType::Optional
           )
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+        $this->extractor = new ArgumentsExtractor($this->options);
       });
       it('return extract arguments', function () {
-        expect($this->extractor->at(0))->toBe('--name');
-        expect($this->extractor->at(1))->toBe('foo');
+        $argv = $this->extractor->extract($this->args);
+        expect($argv->at(0))->toBe('--name');
+        expect($argv->at(1))->toBe('foo');
       });
     });
     context('when -dv', function () {
@@ -78,11 +81,12 @@ describe(ArgumentsExtractor::class, function () {
             ValueType::Optional
           )
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+        $this->extractor = new ArgumentsExtractor($this->options);
       });
       it('return extract arguments', function () {
-        expect($this->extractor->at(0))->toBe('-d');
-        expect($this->extractor->at(1))->toBe('-V');
+        $argv = $this->extractor->extract($this->args);
+        expect($argv->at(0))->toBe('-d');
+        expect($argv->at(1))->toBe('-V');
       });
     });
     context('when --no-name', function () {
@@ -95,10 +99,11 @@ describe(ArgumentsExtractor::class, function () {
             ValueType::Optional
           )
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+        $this->extractor = new ArgumentsExtractor($this->options);
       });
       it('return extract arguments', function () {
-        expect($this->extractor->at(0))->toBe('--no-name');
+        $argv = $this->extractor->extract($this->args);
+        expect($argv->at(0))->toBe('--no-name');
       });
     });
     context('when --long-name foo', function () {
@@ -111,11 +116,12 @@ describe(ArgumentsExtractor::class, function () {
             ValueType::Optional
           )
         ]);
-        $this->extractor = new ArgumentsExtractor($this->options, $this->args);
+        $this->extractor = new ArgumentsExtractor($this->options);
       });
       it('return extract arguments', function () {
-        expect($this->extractor->at(0))->toBe('--long-name');
-        expect($this->extractor->at(1))->toBe('foo');
+        $argv = $this->extractor->extract($this->args);
+        expect($argv->at(0))->toBe('--long-name');
+        expect($argv->at(1))->toBe('foo');
       });
     });
   });

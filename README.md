@@ -14,22 +14,9 @@ use hhpack\getopt\OptionParser;
 use hhpack\getopt\ValueType;
 
 $parser = new OptionParser([
-  cli\bool_option(shape(
-    'name' => 'help',
-    'flags' => [ '-h', '--help' ],
-    'defaultValue' => false
-  )),
-  cli\bool_option(shape(
-    'name' => 'version',
-    'flags' => [ '-v', '--version' ],
-    'defaultValue' => false
-  )),
-  cli\string_option(shape(
-    'name' => 'name',
-    'flags' => [ '-n', '--name' ],
-    'defaultValue' => 'test',
-    'required' => ValueType::Optional
-  ))
+  cli\bool_option('help', '-h|--help', false, 'display help message'),
+  cli\bool_option('version', '-v|--version', false, 'display version'),
+  cli\string_option('name', '-n|--name=?', 'test', 'file name')
 ]);
 
 $result = $parser->parse($argv);
@@ -55,25 +42,9 @@ use hhpack\getopt\ValueType;
 use hhpack\getopt\ApplicationSpec;
 
 $spec = new ApplicationSpec('example', '1.0.0', [
-  cli\bool_option(shape(
-    'name' => 'help',
-    'flags' => [ '-h', '--help' ],
-    'defaultValue' => false,
-    'helpMessage' => 'display help message'
-  )),
-  cli\bool_option(shape(
-    'name' => 'version',
-    'flags' => [ '-v', '--version' ],
-    'defaultValue' => false,
-    'helpMessage' => 'display version'
-  )),
-  cli\string_option(shape(
-    'name' => 'name',
-    'flags' => [ '-n', '--name' ],
-    'defaultValue' => 'test',
-    'required' => ValueType::Optional,
-    'helpMessage' => 'file name'
-  ))
+  cli\bool_option('help', '-h|--help', false, 'display help message'),
+  cli\bool_option('version', '-v|--version', false, 'display version'),
+  cli\string_option('name', '-n|--name=?', 'test', 'file name')
 ]);
 
 $spec->displayVersion(); // display application version
@@ -87,7 +58,7 @@ $spec->displayHelp(); // display application help message
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<_string_>|flags of option, example: -d, --debug|
+|spec|string|spec of option|
 |defaultValue|bool|default value of option|
 |helpHessage|string|help message of option|
 
@@ -96,9 +67,8 @@ $spec->displayHelp(); // display application help message
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<_string_>|flags of option, example: -d, --debug|
+|spec|string|spec of option|
 |defaultValue|int|default value of option|
-|required|ValueType| required or optional option |
 |helpHessage|string|help message of option|
 
 ### float_option
@@ -106,9 +76,8 @@ $spec->displayHelp(); // display application help message
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<_string_>|flags of option, example: -d, --debug|
+|spec|string|spec of option|
 |defaultValue|float|default value of option|
-|required|ValueType| required or optional option |
 |helpHessage|string|help message of option|
 
 ### string_option
@@ -116,9 +85,8 @@ $spec->displayHelp(); // display application help message
 |name|type|description|
 |:---|:---|:---|
 |name|string|destination name of option|
-|flags|Traversable<_string_>|flags of option, example: -d, --debug|
+|spec|string|spec of option|
 |defaultValue|string|default value of option|
-|required|ValueType| required or optional option |
 |helpHessage|string|help message of option|
 
 ## Run the test

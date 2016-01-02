@@ -11,8 +11,8 @@
 
 namespace hhpack\getopt;
 
-enum ValueType : int
+enum ValueType : string
 {
-    Required = 1;
-    Optional = 0;
+    Required = '+';
+    Optional = '?';
 }
