@@ -11,6 +11,8 @@
 
 namespace hhpack\getopt
 {
+    use hhpack\getopt\spec\ValueType;
+
     type ArgOptionSpec<T> = (string, T, string);
     type ArgOptionParameters<T> = shape(
         'name' => string, // option name

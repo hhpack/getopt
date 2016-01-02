@@ -1,21 +1,30 @@
 <?hh //strict
 
-namespace hhpack\getopt\spec\mock;
+/**
+ * This file is part of hhpack\getopt package.
+ *
+ * (c) Noritaka Horio <holy.shared.design@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
-use hhpack\getopt\argv\ArgumentsConsumable;
+namespace hhpack\getopt\argv;
+
 use LogicException;
+use IteratorAggregate;
 
-final class ArgumentsConsumer implements ArgumentsConsumable<string>
+final class ArgumentsConsumer implements ArgumentsConsumable<string>, IteratorAggregate<string>
 {
 
     private int $position = 0;
     private ImmVector<string> $argv;
 
     public function __construct(
-        Traversable<string> $argv
+        Traversable<string> $extractedArgv = []
     )
     {
-        $this->argv = ImmVector::fromItems($argv);
+        $this->argv = ImmVector::fromItems($extractedArgv);
     }
 
     public function valid() : bool
@@ -42,6 +51,11 @@ final class ArgumentsConsumer implements ArgumentsConsumable<string>
 
         $nextAt = $this->position + 1;
         return $this->argv->at($nextAt);
+    }
+
+    public function getIterator() : KeyedIterator<int, string>
+    {
+        return $this->argv->getIterator();
     }
 
     public function consume() : void

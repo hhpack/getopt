@@ -11,7 +11,28 @@
 
 namespace hhpack\getopt;
 
+use hhpack\getopt\app\ApplicationSpec;
+use hhpack\getopt\spec\Option;
+use hhpack\getopt\spec\ValueType;
+use hhpack\getopt\spec\OptionValue;
+use hhpack\getopt\parser\Parser;
+use hhpack\getopt\parser\OptionParser;
+use hhpack\getopt\parser\ParsedResult;
+use hhpack\getopt\handler\BoolConsumeHandler;
+use hhpack\getopt\handler\IntConsumeHandler;
+use hhpack\getopt\handler\FloatConsumeHandler;
+use hhpack\getopt\handler\StringConsumeHandler;
 use LogicException;
+
+function app(string $name, string $version = '0.0.0') : ApplicationSpec
+{
+    return new ApplicationSpec($name, $version);
+}
+
+function optparser(Traversable<Option<mixed>> $options = []) : Parser<Traversable<string>, ParsedResult>
+{
+    return new OptionParser($options);
+}
 
 /**
  * -d|--debug  - flag
