@@ -13,7 +13,7 @@ namespace hhpack\getopt\spec;
 
 use hhpack\getopt\argv\ArgumentsConsumable;
 
-interface Option<T> extends Matcher
+interface Option<+T> extends Matcher
 {
     public function name() : string;
     public function flags() : ImmSet<string>;
