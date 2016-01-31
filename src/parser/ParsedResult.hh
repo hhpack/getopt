@@ -26,14 +26,19 @@ final class ParsedResult
         $this->options = ImmMap::fromItems($options);
     }
 
+    public function arguments() : ImmVector<string>
+    {
+        return $this->args->immutable();
+    }
+
     public function argumentCount() : int
     {
         return $this->args->count();
     }
 
-    public function arguments() : Iterable<string>
+    public function options() : ImmMap<string, mixed>
     {
-        return $this->args->items();
+        return $this->options->immutable();
     }
 
     public function optionCount() : int
