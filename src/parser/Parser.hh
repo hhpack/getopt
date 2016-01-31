@@ -11,7 +11,7 @@
 
 namespace hhpack\getopt\parser;
 
-interface Parser<Ti, To>
+interface Parser<T>
 {
-    public function parse(Ti $input) : To;
+    public function parse(Traversable<string> $input) : T;
 }

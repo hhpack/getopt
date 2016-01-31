@@ -14,8 +14,11 @@ namespace hhpack\getopt\app;
 use hhpack\getopt\spec\Option;
 use hhpack\getopt\spec\OptionSet;
 use hhpack\getopt\spec\OptionCollection;
+use hhpack\getopt\parser\Parser;
+use hhpack\getopt\parser\OptionParser;
+use hhpack\getopt\parser\ParsedResult;
 
-final class ApplicationSpec implements ApplicationSpecDisplayable
+final class ApplicationSpec implements ApplicationSpecDisplayable, Parser<ParsedResult>
 {
 
     private string $usage = '  {app.name} [options]\n\n';
@@ -51,6 +54,12 @@ final class ApplicationSpec implements ApplicationSpecDisplayable
     {
         $this->options = new OptionSet($options);
         return $this;
+    }
+
+    public function parse(Traversable<string> $input = []) : ParsedResult
+    {
+        $parser = new OptionParser($this->options);
+        return $parser->parse($input);
     }
 
     private function displayUsage() : void

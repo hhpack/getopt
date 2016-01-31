@@ -14,7 +14,7 @@ describe(OptionParser::class, function () {
     context('when -- not included', function () {
       beforeEach(function () {
         $this->args = [ '-nfoo' ];
-        $this->parser = new OptionParser([
+        $this->parser = OptionParser::fromOptions([
           new OptionValue(
             new StringConsumeHandler('name', [ '-n', '--name' ]),
             'foo',
@@ -33,7 +33,7 @@ describe(OptionParser::class, function () {
     context('when -- included', function () {
       beforeEach(function () {
         $this->args = [ '-nfoo', '--', 'value' ];
-        $this->parser = new OptionParser([
+        $this->parser = OptionParser::fromOptions([
           new OptionValue(
             new StringConsumeHandler('name', [ '-n', '--name' ]),
             'foo',
@@ -51,7 +51,7 @@ describe(OptionParser::class, function () {
     });
     context('when reqired option is empty', function () {
       beforeEach(function () {
-        $this->parser = new OptionParser([
+        $this->parser = OptionParser::fromOptions([
           new OptionValue(
             new StringConsumeHandler('name', [ '-n', '--name' ]),
             'foo',

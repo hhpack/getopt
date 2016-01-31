@@ -17,16 +17,13 @@ use hhpack\getopt\spec\OptionCollection;
 use hhpack\getopt\argv\ArgumentsConsumer;
 use hhpack\getopt\argv\ArgumentsExtractor;
 
-final class OptionParser implements Parser<Traversable<string>, ParsedResult>
+final class OptionParser implements Parser<ParsedResult>
 {
 
-    private OptionCollection $options;
-
     public function __construct(
-        Traversable<Option<mixed>> $options = []
+        private OptionCollection $options = new OptionSet()
     )
     {
-        $this->options = new OptionSet($options);
     }
 
     public function parse(Traversable<string> $input = []) : ParsedResult
@@ -82,6 +79,12 @@ final class OptionParser implements Parser<Traversable<string>, ParsedResult>
         $this->options->validate($extractedArgv);
 
         return $extractedArgv;
+    }
+
+    public static function fromOptions(Traversable<Option<mixed>> $options = []) : this
+    {
+        $options = new OptionSet($options);
+        return new static($options);
     }
 
 }

@@ -29,9 +29,9 @@ function app(string $name, string $version = '0.0.0') : ApplicationSpec
     return new ApplicationSpec($name, $version);
 }
 
-function optparser(Traversable<Option<mixed>> $options = []) : Parser<Traversable<string>, ParsedResult>
+function optparser(Traversable<Option<mixed>> $options = []) : Parser<ParsedResult>
 {
-    return new OptionParser($options);
+    return OptionParser::fromOptions($options);
 }
 
 /**
