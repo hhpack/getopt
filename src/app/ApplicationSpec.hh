@@ -21,7 +21,7 @@ use hhpack\getopt\parser\ParsedResult;
 final class ApplicationSpec implements ApplicationSpecDisplayable, Parser<ParsedResult>
 {
 
-    private string $usage = '  {app.name} [options]\n\n';
+    private string $usage = "  {app.name} [options]\n\n";
     private OptionCollection $options;
 
     public function __construct(
