@@ -56,4 +56,9 @@ final class ParsedResult
         return $this->options->at($name);
     }
 
+    public function map<Tu>((function(this):Tu) $mapper) : Tu
+    {
+        return $mapper($this);
+    }
+
 }
