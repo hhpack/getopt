@@ -9,10 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\spec;
+namespace HHPack\Getopt\Spec;
 
-enum ValueType : string
+interface Matcher
 {
-    Required = '+';
-    Optional = '?';
+    public function matches(string $name) : bool;
 }

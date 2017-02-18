@@ -9,14 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\app;
+namespace HHPack\Getopt\App;
 
-use hhpack\getopt\spec\Option;
-use hhpack\getopt\spec\OptionSet;
-use hhpack\getopt\spec\OptionCollection;
-use hhpack\getopt\parser\Parser;
-use hhpack\getopt\parser\OptionParser;
-use hhpack\getopt\parser\ParsedResult;
+use HHPack\Getopt\Spec\Option;
+use HHPack\Getopt\Spec\OptionSet;
+use HHPack\Getopt\Spec\OptionCollection;
+use HHPack\Getopt\Parser\Parser;
+use HHPack\Getopt\Parser\OptionParser;
+use HHPack\Getopt\Parser\ParsedResult;
 
 final class ApplicationSpec implements ApplicationSpecDisplayable, Parser<ParsedResult>
 {

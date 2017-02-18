@@ -9,13 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\parser;
+namespace HHPack\Getopt\Parser;
 
-use hhpack\getopt\spec\Option;
-use hhpack\getopt\spec\OptionSet;
-use hhpack\getopt\spec\OptionCollection;
-use hhpack\getopt\argv\ArgumentsConsumer;
-use hhpack\getopt\argv\ArgumentsExtractor;
+use HHPack\Getopt\Spec\Option;
+use HHPack\Getopt\Spec\OptionSet;
+use HHPack\Getopt\Spec\OptionCollection;
+use HHPack\Getopt\Argv\ArgumentsConsumer;
+use HHPack\Getopt\Argv\ArgumentsExtractor;
 
 final class OptionParser implements Parser<ParsedResult>
 {

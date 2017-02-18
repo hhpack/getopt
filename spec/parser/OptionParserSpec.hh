@@ -1,13 +1,13 @@
 <?hh //partial
 
-namespace hhpack\getopt\spec\parser;
+namespace HHPack\Getopt\Spec\Parser;
 
-use hhpack\getopt\parser\OptionParser;
-use hhpack\getopt\spec\ValueType;
-use hhpack\getopt\spec\NamedMatcher;
-use hhpack\getopt\spec\OptionValue;
-use hhpack\getopt\spec\RequiredException;
-use hhpack\getopt\handler\StringConsumeHandler;
+use HHPack\Getopt\Parser\OptionParser;
+use HHPack\Getopt\Spec\ValueType;
+use HHPack\Getopt\Spec\NamedMatcher;
+use HHPack\Getopt\Spec\OptionValue;
+use HHPack\Getopt\Spec\RequiredException;
+use HHPack\Getopt\Handler\StringConsumeHandler;
 
 describe(OptionParser::class, function () {
   describe('parse', function () {

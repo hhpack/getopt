@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\spec;
+namespace HHPack\Getopt\Spec;
 
-interface Matcher
+interface HelpDisplayable 
 {
-    public function matches(string $name) : bool;
+    public function displayHelp() : void;
 }

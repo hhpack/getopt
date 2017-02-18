@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\parser;
+namespace HHPack\Getopt\Parser;
 
 final class ParsedResult
 {

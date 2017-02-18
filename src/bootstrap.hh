@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt
+namespace HHPack\Getopt
 {
-    use hhpack\getopt\spec\ValueType;
+    use HHPack\Getopt\Spec\ValueType;
 
     type ArgOptionSpec<T> = (string, T, string);
     type ArgOptionParameters<T> = shape(

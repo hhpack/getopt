@@ -1,8 +1,8 @@
 <?hh //strict
 
-namespace hhpack\getopt\spec\mock;
+namespace HHPack\Getopt\Spec\Mock;
 
-use hhpack\getopt\argv\ArgumentsConsumable;
+use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
 
 final class ArgumentsConsumer implements ArgumentsConsumable<string>

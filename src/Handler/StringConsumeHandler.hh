@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\handler;
+namespace HHPack\Getopt\Handler;
 
-use hhpack\getopt\argv\ArgumentsConsumable;
+use HHPack\Getopt\Argv\ArgumentsConsumable;
 
-final class IntConsumeHandler implements ConsumeHandler<int>
+final class StringConsumeHandler implements ConsumeHandler<string>
 {
 
     private OneArgumentConsumeHandler $handler;
@@ -46,11 +46,9 @@ final class IntConsumeHandler implements ConsumeHandler<int>
         return $this->handler->matches($name);
     }
 
-    public function consume(ArgumentsConsumable<string> $consumer) : Pair <string, int>
+    public function consume(ArgumentsConsumable<string> $consumer) : Pair <string, string>
     {
-        $result = $this->handler->consume($consumer);
-        list($name, $value) = $result;
-        return Pair { $this->handler->name(), (int) $value };
+        return $this->handler->consume($consumer);
     }
 
 }

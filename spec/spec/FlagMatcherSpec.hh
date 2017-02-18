@@ -1,8 +1,8 @@
 <?hh //partial
 
-namespace hhpack\getopt\spec\spec;
+namespace HHPack\Getopt\Spec\Spec;
 
-use hhpack\getopt\spec\FlagMatcher;
+use HHPack\Getopt\Spec\FlagMatcher;
 
 describe(FlagMatcher::class, function () {
   describe('matches', function () {

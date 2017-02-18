@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\spec;
+namespace HHPack\Getopt\Spec;
 
-enum ConsumeType : int
+enum ValueType : string
 {
-    NoValue = 0;
-    TakesValue = 1;
+    Required = '+';
+    Optional = '?';
 }

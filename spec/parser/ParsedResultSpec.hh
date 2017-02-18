@@ -1,15 +1,15 @@
 <?hh //partial
 
-namespace hhpack\getopt\spec\parser;
+namespace HHPack\Getopt\Spec\Parser;
 
-use hhpack\getopt\parser\ParsedResult;
+use HHPack\Getopt\Parser\ParsedResult;
 
 describe(ParsedResult::class, function () {
   describe('map', function () {
     beforeEach(function () {
       $this->result = new ParsedResult(
         [ 'foo' ],
-        [ Pair { 'name', string } ]
+        [ Pair { 'name', 'string' } ]
       );
     });
     it('return the result of applying the mapper', function () {

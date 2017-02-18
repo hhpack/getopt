@@ -9,9 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\spec;
+namespace HHPack\Getopt\Spec;
 
-interface HelpDisplayable 
+enum ConsumeType : int
 {
-    public function displayHelp() : void;
+    NoValue = 0;
+    TakesValue = 1;
 }
