@@ -9,7 +9,7 @@
 It generates the parser as follows, and then parse the option.
 
 ```hack
-use hhpack\getopt as cli;
+use HHPack\Getopt as cli;
 
 $parser = cli\optparser([
   cli\bool_option('help', '-h|--help', false, 'display help message'),
@@ -35,7 +35,7 @@ if ($result->hasOption('name')) {
 ## Specification of CLI Application
 
 ```hack
-use hhpack\getopt as cli;
+use HHPack\Getopt as cli;
 
 $spec = cli\app('example', '1.0.0');
 $spec->usage("  {app.name} [options]\n\n")
