@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\argv;
+namespace HHPack\Getopt\Argv;
 
-use hhpack\getopt\spec\OptionCollection;
+use HHPack\Getopt\Spec\OptionCollection;
 use RuntimeException;
 use ConstCollection;
 

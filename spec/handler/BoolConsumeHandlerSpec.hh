@@ -1,10 +1,10 @@
 <?hh //partial
 
-namespace hhpack\getopt\spec\handler;
+namespace HHPack\Getopt\Spec\Handler;
 
-use hhpack\getopt\handler\BoolConsumeHandler;
-use hhpack\getopt\spec\NamedMatcher;
-use hhpack\getopt\spec\mock\ArgumentsConsumer;
+use HHPack\Getopt\Handler\BoolConsumeHandler;
+use HHPack\Getopt\Spec\NamedMatcher;
+use HHPack\Getopt\Spec\Mock\ArgumentsConsumer;
 
 describe(BoolConsumeHandler::class, function () {
   describe('consume', function () {

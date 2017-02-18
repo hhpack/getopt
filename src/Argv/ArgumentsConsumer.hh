@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\argv;
+namespace HHPack\Getopt\Argv;
 
 use LogicException;
 use IteratorAggregate;

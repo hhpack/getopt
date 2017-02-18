@@ -20,13 +20,13 @@
   },
   "autoload": {
     "psr-4": {
-      "hhpack\\getopt\\": "src"
+      "HHPack\\Getopt\\": "src"
     },
     "files": [ "src/bootstrap.hh", "src/shortchut.hh" ]
   },
   "autoload-dev": {
     "psr-4": {
-      "hhpack\\getopt\\spec\\mock\\": "spec/mock"
+      "HHPack\\Getopt\\Spec\\Mock\\": "spec/mock"
     }
   },
   "scripts": {

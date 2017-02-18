@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\handler;
+namespace HHPack\Getopt\Handler;
 
-use hhpack\getopt\spec\Matcher;
-use hhpack\getopt\argv\ArgumentsConsumable;
+use HHPack\Getopt\Spec\Matcher;
+use HHPack\Getopt\Argv\ArgumentsConsumable;
 
 interface ConsumeHandler<T> extends Matcher
 {

@@ -1,14 +1,14 @@
 <?hh //partial
 
-namespace hhpack\getopt\spec\argv;
+namespace HHPack\Getopt\Spec\Argv;
 
-use hhpack\getopt\spec\OptionSet;
-use hhpack\getopt\spec\OptionValue;
-use hhpack\getopt\spec\ValueType;
-use hhpack\getopt\spec\NamedMatcher;
-use hhpack\getopt\argv\ArgumentsExtractor;
-use hhpack\getopt\handler\StringConsumeHandler;
-use hhpack\getopt\handler\BoolConsumeHandler;
+use HHPack\Getopt\Spec\OptionSet;
+use HHPack\Getopt\Spec\OptionValue;
+use HHPack\Getopt\Spec\ValueType;
+use HHPack\Getopt\Spec\NamedMatcher;
+use HHPack\Getopt\Argv\ArgumentsExtractor;
+use HHPack\Getopt\Handler\StringConsumeHandler;
+use HHPack\Getopt\Handler\BoolConsumeHandler;
 
 describe(ArgumentsExtractor::class, function () {
   describe('at', function () {

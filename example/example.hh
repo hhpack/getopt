@@ -1,10 +1,10 @@
 <?hh //partial
 
-namespace hhpack\getopt\example;
+namespace HHPack\Getopt\Example;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use hhpack\getopt as cli;
+use HHPack\Getopt as cli;
 
 function optparser_main(Traversable<string> $argv) : void
 {

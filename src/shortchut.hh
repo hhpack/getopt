@@ -9,19 +9,19 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt;
+namespace HHPack\Getopt;
 
-use hhpack\getopt\app\ApplicationSpec;
-use hhpack\getopt\spec\Option;
-use hhpack\getopt\spec\ValueType;
-use hhpack\getopt\spec\OptionValue;
-use hhpack\getopt\parser\Parser;
-use hhpack\getopt\parser\OptionParser;
-use hhpack\getopt\parser\ParsedResult;
-use hhpack\getopt\handler\BoolConsumeHandler;
-use hhpack\getopt\handler\IntConsumeHandler;
-use hhpack\getopt\handler\FloatConsumeHandler;
-use hhpack\getopt\handler\StringConsumeHandler;
+use HHPack\Getopt\App\ApplicationSpec;
+use HHPack\Getopt\Spec\Option;
+use HHPack\Getopt\Spec\ValueType;
+use HHPack\Getopt\Spec\OptionValue;
+use HHPack\Getopt\Parser\Parser;
+use HHPack\Getopt\Parser\OptionParser;
+use HHPack\Getopt\Parser\ParsedResult;
+use HHPack\Getopt\Handler\BoolConsumeHandler;
+use HHPack\Getopt\Handler\IntConsumeHandler;
+use HHPack\Getopt\Handler\FloatConsumeHandler;
+use HHPack\Getopt\Handler\StringConsumeHandler;
 use LogicException;
 
 function app(string $name, string $version = '0.0.0') : ApplicationSpec
@@ -36,7 +36,7 @@ function optparser(Traversable<Option<mixed>> $options = []) : Parser<ParsedResu
 
 /**
  * -d|--debug  - flag
- * -n|--name=? - optional 
+ * -n|--name=? - optional
  * -n|--name=+ - required
  */
 function parse_spec(string $spec) : (Traversable<string>, ValueType) {

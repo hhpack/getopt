@@ -9,11 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\app;
+namespace HHPack\Getopt\Parser;
 
-use hhpack\getopt\spec\HelpDisplayable;
-
-interface ApplicationSpecDisplayable extends HelpDisplayable
+interface Parser<T>
 {
-    public function displayVersion() : void;
+    public function parse(Traversable<string> $input) : T;
 }

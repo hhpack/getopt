@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\spec;
+namespace HHPack\Getopt\Spec;
 
 use Exception;
 use RuntimeException;

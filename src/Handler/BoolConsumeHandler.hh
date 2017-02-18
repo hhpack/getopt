@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\handler;
+namespace HHPack\Getopt\Handler;
 
-use hhpack\getopt\spec\ConsumeType;
-use hhpack\getopt\spec\FlagMatcher;
-use hhpack\getopt\argv\ArgumentsConsumable;
+use HHPack\Getopt\Spec\ConsumeType;
+use HHPack\Getopt\Spec\FlagMatcher;
+use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
 
 final class BoolConsumeHandler extends ArgumentConsumeHandler<bool>

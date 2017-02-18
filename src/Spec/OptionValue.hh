@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace hhpack\getopt\spec;
+namespace HHPack\Getopt\Spec;
 
-use hhpack\getopt\handler\ConsumeHandler;
-use hhpack\getopt\argv\ArgumentsConsumable;
+use HHPack\Getopt\Handler\ConsumeHandler;
+use HHPack\Getopt\Argv\ArgumentsConsumable;
 
 final class OptionValue<T> implements Option<T>
 {
@@ -20,7 +20,7 @@ final class OptionValue<T> implements Option<T>
         private ConsumeHandler<T> $consumeHandler,
         private T $defaultValue,
         private ValueType $required,
-        private string $helpMessage
+        private string $helpMessage = ''
     )
     {
     }
