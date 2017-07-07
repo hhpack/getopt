@@ -1,6 +1,6 @@
 <?hh //strict
 
-namespace HHPack\Getopt\Spec\Mock;
+namespace HHPack\Getopt\Test\Mock;
 
 use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
@@ -48,5 +48,4 @@ final class ArgumentsConsumer implements ArgumentsConsumable<string>
     {
         $this->position++;
     }
-
 }
