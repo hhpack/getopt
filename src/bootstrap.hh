@@ -9,16 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-namespace HHPack\Getopt
-{
-    use HHPack\Getopt\Spec\ValueType;
+namespace HHPack\Getopt {
 
-    type ArgOptionSpec<T> = (string, T, string);
-    type ArgOptionParameters<T> = shape(
-        'name' => string, // option name
-        'flags' => Traversable<string>, // example -f, --file
-        'defaultValue' => T, // option default value
-        'required' => ValueType, // option type, optional or required option
-        'helpMessage' => string
-    );
 }

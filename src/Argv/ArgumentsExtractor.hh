@@ -13,7 +13,6 @@ namespace HHPack\Getopt\Argv;
 
 use HHPack\Getopt\Spec\OptionCollection;
 use RuntimeException;
-use ConstCollection;
 
 final class ArgumentsExtractor
 {

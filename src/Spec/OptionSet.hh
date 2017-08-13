@@ -18,23 +18,18 @@ use ConstCollection;
 final class OptionSet implements OptionCollection
 {
 
-    private ImmMap<string, Option<mixed>> $namedOptions;
-    private ImmMap<string, Option<mixed>> $flagedOptions;
+    private ImmMap<string, Option> $options;
 
     public function __construct(
-        Traversable<Option<mixed>> $options = []
+        Traversable<Option> $options = []
     )
     {
-        $namedOptions = Map {};
-        $flagedOptions = Map {};
+        $mappedOptions = Map {};
 
         foreach ($options as $option) {
-            $namedOptions->add( Pair { $option->name(), $option }); 
-            $flagedOptions->setAll( $option->toImmMap() );
+            $mappedOptions->setAll( $option->toImmMap() );
         }
-
-        $this->namedOptions = $namedOptions->toImmMap();
-        $this->flagedOptions = $flagedOptions->toImmMap();
+        $this->options = $mappedOptions->toImmMap();
     }
 
     /**
@@ -61,12 +56,12 @@ final class OptionSet implements OptionCollection
      * $options->get('-c');
      * $options->get('--config');
      */
-    public function get(string $name) : Option<mixed>
+    public function get(string $name) : Option
     {
-        if (!$this->flagedOptions->containsKey($name)) {
+        if (!$this->options->containsKey($name)) {
             throw new LogicException('have not option ' . $name);
         }
-        return $this->flagedOptions->at($name);
+        return $this->options->at($name);
     }
 
     public function hasNoValue(string $name) : bool
@@ -75,10 +70,10 @@ final class OptionSet implements OptionCollection
     }
 
     <<__Memoize>>
-    public function noValues() : ImmMap<string, Option<mixed>>
+    public function noValues() : ImmMap<string, Option>
     {
         $selector = ($option) ==> !$option->isTakesValue();
-        return $this->flagedOptions->filter($selector);
+        return $this->options->filter($selector);
     }
 
     public function hasOneValue(string $name) : bool
@@ -86,80 +81,26 @@ final class OptionSet implements OptionCollection
         return $this->oneValues()->containsKey($name);
     }
 
-    public function validate(Traversable<string> $args) : void
-    {
-        $messages = [];
-        $notSpecifiedOptions = $this->detectNotSpecifiedOptions($args);
-
-        if ($notSpecifiedOptions->isEmpty()) {
-            return;
-        }
-
-        foreach ($notSpecifiedOptions->items() as $item) {
-            list($_, $option) = $item;
-            $flagValue = implode(', ', $option->flags()->toArray());
-            $messages[] = $flagValue . ' ' . $option->helpMessage();
-        }
-
-        throw new RequiredException(sprintf("Required option has not been specified.\n\n%s", implode(PHP_EOL, $messages)));
-    }
-
-    private function detectNotSpecifiedOptions(Traversable<string> $arguments) : ImmMap<string, Option<mixed>>
-    {
-        $required = ($option) ==> $option->isRequired();
-        $requiredValues = $this->flagedOptions->filter($required)->toMap();
-
-        foreach ($arguments as $argument) {
-            if (!$requiredValues->containsKey($argument)) {
-                continue;
-            }
-            $option = $requiredValues->at($argument);
-
-            foreach ($option->flags() as $flag) {
-                $requiredValues->remove($flag);
-            }
-        }
-
-        $result = Map {};
-
-        foreach ($requiredValues->lazy() as $key => $option) {
-            $result->set($option->name(), $option);
-        }
-
-        return $result->toImmMap();
-    }
-
-    public function defaultValues() : ImmVector<Pair<string, mixed>>
-    {
-        $defaultValues = Vector {};
-
-        foreach ($this->namedOptions->lazy() as $name => $option) {
-            $defaultValues->add(Pair { $option->name(), $option->defaultValue() });
-        }
-
-        return $defaultValues->toImmVector();
-    }
-
     public function isEmpty() : bool
     {
-        return $this->namedOptions->isEmpty();
+        return $this->options->isEmpty();
     }
 
     public function count() : int
     {
-        return $this->namedOptions->count();
+        return $this->options->count();
     }
 
-    public function items() : Iterable<Option<mixed>>
+    public function items() : Iterable<Option>
     {
-        return $this->namedOptions->values();
+        return $this->options->values();
     }
 
     <<__Memoize>>
-    public function oneValues() : ImmMap<string, Option<mixed>>
+    public function oneValues() : ImmMap<string, Option>
     {
         $selector = ($option) ==> $option->isTakesValue();
-        return $this->flagedOptions->filter($selector);
+        return $this->options->filter($selector);
     }
 
     <<__Memoize>>
@@ -167,7 +108,7 @@ final class OptionSet implements OptionCollection
     {
         $optionNames = Set {};
 
-        foreach ($this->namedOptions->values() as $option) {
+        foreach ($this->options->values() as $option) {
             $optionNames->addAll($option->flags());
         }
 

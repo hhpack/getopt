@@ -2,11 +2,7 @@
 
 namespace HHPack\Getopt\Test\Spec;
 
-use HHPack\Getopt\Spec\OptionSet;
-use HHPack\Getopt\Spec\ValueType;
-use HHPack\Getopt\Spec\OptionValue;
-use HHPack\Getopt\Handler\StringConsumeHandler;
-use HHPack\Getopt\Handler\BoolConsumeHandler;
+use HHPack\Getopt\Spec\{ OptionSet, NoArgumentOption, OneArgumentOption };
 use HackPack\HackUnit\Contract\Assert;
 
 final class OptionSetTest
@@ -15,11 +11,7 @@ final class OptionSetTest
     public function shortAndLongContains(Assert $assert) : void
     {
         $options = new OptionSet([
-            new OptionValue(
-                new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
-                false,
-                ValueType::Optional
-            )
+            new NoArgumentOption([ '-d', '--debug' ])
         ]);
 
         $result = $options->contains('-d'); // short name
@@ -33,29 +25,21 @@ final class OptionSetTest
     public function lookUpFromContainer(Assert $assert) : void
     {
         $options = new OptionSet([
-            new OptionValue(
-                new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
-                false,
-                ValueType::Optional
-            )
+            new NoArgumentOption([ '-d', '--debug' ])
         ]);
 
         $option = $options->get('-d'); // short name
-        $assert->string($option->name())->is('debug');
+        $assert->mixed($option)->isTypeOf(NoArgumentOption::class);
 
         $option = $options->get('--debug'); // long name
-        $assert->string($option->name())->is('debug');
+        $assert->mixed($option)->isTypeOf(NoArgumentOption::class);
     }
 
     <<Test>>
     public function noValueContains(Assert $assert) : void
     {
         $options = new OptionSet([
-            new OptionValue(
-                new BoolConsumeHandler('debug', [ '-d', '--debug' ]),
-                false,
-                ValueType::Optional
-            )
+            new NoArgumentOption([ '-d', '--debug' ])
         ]);
 
         $result = $options->hasNoValue('-d'); // short name
@@ -75,11 +59,7 @@ final class OptionSetTest
     public function oneValueContains(Assert $assert) : void
     {
         $options = new OptionSet([
-            new OptionValue(
-                new StringConsumeHandler('name', [ '-n', '--name' ]),
-                'bar',
-                ValueType::Optional
-            )
+            new OneArgumentOption([ '-n', '--name' ])
         ]);
 
         $result = $options->hasOneValue('-n'); // short name

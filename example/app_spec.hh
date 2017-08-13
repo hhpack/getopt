@@ -8,12 +8,16 @@ use HHPack\Getopt as cli;
 
 function appspec_main() : void
 {
+    $help = false;
+    $version = false;
+    $fileName = 'test';
+
     $spec = cli\app('example', '1.0.0');
     $spec->usage("  {app.name} [options]\n\n")
       ->options([
-          cli\bool_option('help', '-h|--help', false, 'display help message'),
-          cli\bool_option('version', '-v|--version', false, 'display version'),
-          cli\string_option('name', '-n|--name=?', 'test', 'file name')
+          cli\on(['-h', '--help'], 'display help message', () ==> { $help = true; }),
+          cli\on(['-v', '--version'], 'display version', () ==> { $version = true; }),
+          cli\take_on(['-n', '--name'], 'file name', ($name) ==> { $fileName = (string) $name; })
       ]);
 
     $spec->displayVersion();

@@ -11,7 +11,10 @@
 
 namespace HHPack\Getopt\Parser;
 
-interface Parser<T>
+interface Parser
 {
-    public function parse(Traversable<string> $input) : T;
+    /**
+     * Parse command line arguments
+     */
+    public function parse(Traversable<string> $input) : Traversable<string>;
 }

@@ -14,7 +14,8 @@ namespace HHPack\Getopt\Parser;
 use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection };
 use HHPack\Getopt\Argv\{ ArgumentsConsumer, ArgumentsExtractor };
 
-final class OptionParser implements Parser<ParsedResult>
+
+final class OptionParser implements Parser
 {
 
     public function __construct(
@@ -23,12 +24,11 @@ final class OptionParser implements Parser<ParsedResult>
     {
     }
 
-    public function parse(Traversable<string> $input = []) : ParsedResult
+    public function parse(Traversable<string> $input = []) : Traversable<string>
     {
         list($argv, $notFlags) = $this->prepareArgs($input);
 
         $args = Vector::fromItems($notFlags);
-        $options = Vector::fromItems( $this->options->defaultValues() );
 
         $extractedArgv = $this->extractArgv($argv);
         $consumer = new ArgumentsConsumer($extractedArgv);
@@ -45,12 +45,10 @@ final class OptionParser implements Parser<ParsedResult>
             list($_, $name) = $matches;
 
             $option = $this->options->get($name);
-            $result = $option->consume($consumer);
-
-            $options->add($result);
+            $option->consume($consumer);
         }
 
-        return new ParsedResult($args, $options);
+        return $args;
     }
 
     private function prepareArgs(Traversable<string> $argv = []) : (Traversable<string>, Traversable<string>)
@@ -73,12 +71,10 @@ final class OptionParser implements Parser<ParsedResult>
         $extractor = ArgumentsExtractor::fromOptions($this->options);
         $extractedArgv = $extractor->extract($argv);
 
-        $this->options->validate($extractedArgv);
-
         return $extractedArgv;
     }
 
-    public static function fromOptions(Traversable<Option<mixed>> $options = []) : this
+    public static function fromOptions(Traversable<Option> $options = []) : this
     {
         $options = new OptionSet($options);
         return new static($options);

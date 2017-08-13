@@ -11,8 +11,5 @@
 
 namespace HHPack\Getopt\Spec;
 
-enum ConsumeType : int
-{
-    NoValue = 0;
-    TakesValue = 1;
-}
+type OneArgmentAction = (function(mixed):void);
+type NoArgmentAction = (function():void);
