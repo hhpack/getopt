@@ -12,16 +12,9 @@
 namespace HHPack\Getopt;
 
 use HHPack\Getopt\App\ApplicationSpec;
-use HHPack\Getopt\Spec\Option;
-use HHPack\Getopt\Spec\ValueType;
-use HHPack\Getopt\Spec\OptionValue;
-use HHPack\Getopt\Parser\Parser;
-use HHPack\Getopt\Parser\OptionParser;
-use HHPack\Getopt\Parser\ParsedResult;
-use HHPack\Getopt\Handler\BoolConsumeHandler;
-use HHPack\Getopt\Handler\IntConsumeHandler;
-use HHPack\Getopt\Handler\FloatConsumeHandler;
-use HHPack\Getopt\Handler\StringConsumeHandler;
+use HHPack\Getopt\Spec\{ Option, ValueType, OptionValue };
+use HHPack\Getopt\Parser\{ Parser, OptionParser, ParsedResult };
+use HHPack\Getopt\Handler\{ BoolConsumeHandler, IntConsumeHandler, FloatConsumeHandler, StringConsumeHandler };
 use LogicException;
 
 function app(string $name, string $version = '0.0.0') : ApplicationSpec

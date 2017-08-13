@@ -11,11 +11,8 @@
 
 namespace HHPack\Getopt\Parser;
 
-use HHPack\Getopt\Spec\Option;
-use HHPack\Getopt\Spec\OptionSet;
-use HHPack\Getopt\Spec\OptionCollection;
-use HHPack\Getopt\Argv\ArgumentsConsumer;
-use HHPack\Getopt\Argv\ArgumentsExtractor;
+use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection };
+use HHPack\Getopt\Argv\{ ArgumentsConsumer, ArgumentsExtractor };
 
 final class OptionParser implements Parser<ParsedResult>
 {
