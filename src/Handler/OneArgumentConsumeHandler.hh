@@ -11,8 +11,7 @@
 
 namespace HHPack\Getopt\Handler;
 
-use HHPack\Getopt\Spec\FlagMatcher;
-use HHPack\Getopt\Spec\ConsumeType;
+use HHPack\Getopt\Spec\{ FlagMatcher, ConsumeType };
 use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
 

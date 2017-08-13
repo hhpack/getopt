@@ -11,8 +11,7 @@
 
 namespace HHPack\Getopt\Handler;
 
-use HHPack\Getopt\Spec\ConsumeType;
-use HHPack\Getopt\Spec\FlagMatcher;
+use HHPack\Getopt\Spec\{ ConsumeType, FlagMatcher };
 
 abstract class ArgumentConsumeHandler<T> implements ConsumeHandler<T>
 {

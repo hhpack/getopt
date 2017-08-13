@@ -11,12 +11,8 @@
 
 namespace HHPack\Getopt\App;
 
-use HHPack\Getopt\Spec\Option;
-use HHPack\Getopt\Spec\OptionSet;
-use HHPack\Getopt\Spec\OptionCollection;
-use HHPack\Getopt\Parser\Parser;
-use HHPack\Getopt\Parser\OptionParser;
-use HHPack\Getopt\Parser\ParsedResult;
+use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection };
+use HHPack\Getopt\Parser\{ Parser, OptionParser, ParsedResult };
 
 final class ApplicationSpec implements ApplicationSpecDisplayable, Parser<ParsedResult>
 {
