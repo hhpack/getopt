@@ -14,18 +14,18 @@ namespace HHPack\Getopt\Spec;
 abstract class AbstractOption implements Option
 {
 
-    protected ImmSet<string> $flags;
+    protected ImmSet<string> $names;
     protected string $helpMessage = '';
     protected int $numberOfArgs = 0;
 
-    public function flags() : ImmSet<string>
+    public function names() : ImmSet<string>
     {
-        return $this->flags;
+        return $this->names;
     }
 
     public function options() : Iterator<Pair<string, Option>>
     {
-        foreach ($this->flags->items() as $name) {
+        foreach ($this->names->items() as $name) {
             yield Pair { $name, $this };
         }
     }
@@ -40,6 +40,12 @@ abstract class AbstractOption implements Option
         return $this->helpMessage;
     }
 
+    public function displayName() : string
+    {
+        $names = $this->names()->toValuesArray();
+        return implode(', ', $names);
+    }
+
     public function toImmMap() : ImmMap<string, Option>
     {
         return ImmMap::fromItems( $this->options() );
@@ -49,12 +55,12 @@ abstract class AbstractOption implements Option
     {
         $matched = false;
 
-        $flags = ImmVector::fromItems($this->flags)->map(($flag) ==> {
-            return new FlagMatcher($flag);
+        $nameMatchers = ImmVector::fromItems($this->names)->map(($name) ==> {
+            return new NameMatcher($name);
         });
 
-        foreach ($flags->items() as $flag) {
-            if ($flag->matches($name)) {
+        foreach ($nameMatchers->items() as $nameMatcher) {
+            if ($nameMatcher->matches($name)) {
                 $matched = true;
                 break;
             }

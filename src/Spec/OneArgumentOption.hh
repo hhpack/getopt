@@ -19,12 +19,12 @@ final class OneArgumentOption extends AbstractOption implements Option
 {
 
     public function __construct(
-        Traversable<string> $flags,
+        Traversable<string> $names,
         string $helpMessage = '',
-        private OneArgmentAction $action = ($_) ==> {}
+        private OneArgmentAction $action = (($_) ==> {})
     )
     {
-        $this->flags = ImmSet::fromItems($flags);
+        $this->names = ImmSet::fromItems($names);
         $this->helpMessage = $helpMessage;
         $this->numberOfArgs = 1;
     }

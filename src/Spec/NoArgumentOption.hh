@@ -18,12 +18,12 @@ final class NoArgumentOption extends AbstractOption implements Option
 {
 
     public function __construct(
-        Traversable<string> $flags,
+        Traversable<string> $names,
         string $helpMessage = '',
-        private NoArgmentAction $action = () ==> {},
+        private NoArgmentAction $action = (() ==> {})
     )
     {
-        $this->flags = ImmSet::fromItems($flags);
+        $this->names = ImmSet::fromItems($names);
         $this->helpMessage = $helpMessage;
         $this->numberOfArgs = 0;
     }

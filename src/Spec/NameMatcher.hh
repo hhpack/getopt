@@ -11,7 +11,7 @@
 
 namespace HHPack\Getopt\Spec;
 
-final class FlagMatcher implements Matcher
+final class NameMatcher implements Matcher
 {
 
     public function __construct(

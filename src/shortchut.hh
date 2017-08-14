@@ -26,17 +26,17 @@ function optparser(Traversable<Option> $options = []) : Parser
 }
 
 function on(
-    Traversable<string> $alias,
+    Traversable<string> $prefixes,
     string $help,
     (function():void) $action): NoArgumentOption
 {
-    return new NoArgumentOption($alias, $help, $action);
+    return new NoArgumentOption($prefixes, $help, $action);
 }
 
 function take_on(
-    Traversable<string> $alias,
+    Traversable<string> $prefixes,
     string $help,
     (function(mixed):void) $action): OneArgumentOption
 {
-    return new OneArgumentOption($alias, $help, $action);
+    return new OneArgumentOption($prefixes, $help, $action);
 }

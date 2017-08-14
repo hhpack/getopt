@@ -18,7 +18,8 @@ use ConstCollection;
 final class OptionSet implements OptionCollection
 {
 
-    private ImmMap<string, Option> $options;
+    private ImmVector<Option> $options;
+    private ImmMap<string, Option> $registry;
 
     public function __construct(
         Traversable<Option> $options = []
@@ -29,7 +30,9 @@ final class OptionSet implements OptionCollection
         foreach ($options as $option) {
             $mappedOptions->setAll( $option->toImmMap() );
         }
-        $this->options = $mappedOptions->toImmMap();
+
+        $this->options = ImmVector::fromItems($options);
+        $this->registry = $mappedOptions->toImmMap();
     }
 
     /**
@@ -58,10 +61,10 @@ final class OptionSet implements OptionCollection
      */
     public function get(string $name) : Option
     {
-        if (!$this->options->containsKey($name)) {
+        if (!$this->registry->containsKey($name)) {
             throw new LogicException('have not option ' . $name);
         }
-        return $this->options->at($name);
+        return $this->registry->at($name);
     }
 
     public function hasNoValue(string $name) : bool
@@ -73,7 +76,7 @@ final class OptionSet implements OptionCollection
     public function noValues() : ImmMap<string, Option>
     {
         $selector = ($option) ==> !$option->isTakesValue();
-        return $this->options->filter($selector);
+        return $this->registry->filter($selector);
     }
 
     public function hasOneValue(string $name) : bool
@@ -83,12 +86,12 @@ final class OptionSet implements OptionCollection
 
     public function isEmpty() : bool
     {
-        return $this->options->isEmpty();
+        return $this->registry->isEmpty();
     }
 
     public function count() : int
     {
-        return $this->options->count();
+        return $this->registry->count();
     }
 
     public function items() : Iterable<Option>
@@ -100,7 +103,7 @@ final class OptionSet implements OptionCollection
     public function oneValues() : ImmMap<string, Option>
     {
         $selector = ($option) ==> $option->isTakesValue();
-        return $this->options->filter($selector);
+        return $this->registry->filter($selector);
     }
 
     <<__Memoize>>
@@ -108,8 +111,8 @@ final class OptionSet implements OptionCollection
     {
         $optionNames = Set {};
 
-        foreach ($this->options->values() as $option) {
-            $optionNames->addAll($option->flags());
+        foreach ($this->registry->values() as $option) {
+            $optionNames->addAll($option->names());
         }
 
         return $optionNames->toImmSet();
@@ -119,14 +122,25 @@ final class OptionSet implements OptionCollection
     {
         fwrite(STDOUT, "Options:\n");
 
-        foreach ($this->items() as $option) {
-            $flags = $option->flags()->toValuesArray();
-            $helpMessage = $option->helpMessage();
+        $labels = $this->items()->map(($option) ==> {
+            return $option->displayName();
+        })->toArray();
 
+        $maxLength = array_reduce($labels, ($current, $label) ==> {
+            $maxLength = $current;
+
+            if (strlen($label) > $current) {
+                $maxLength = strlen($label);
+            }
+
+            return $maxLength;
+        }, 0);
+
+        foreach ($this->items() as $option) {
             fwrite(STDOUT, sprintf(
                 "  %s %s\n",
-                implode(', ', $flags),
-                $helpMessage
+                str_pad($option->displayName(), $maxLength),
+                $option->helpMessage()
             ));
         }
     }
