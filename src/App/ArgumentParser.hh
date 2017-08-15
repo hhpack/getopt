@@ -14,15 +14,16 @@ namespace HHPack\Getopt\App;
 use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection };
 use HHPack\Getopt\Parser\{ Parser, OptionParser };
 
-final class ApplicationSpec implements ApplicationSpecDisplayable, Parser
+final class ArgumentParser implements ApplicationSpecDisplayable, Parser
 {
 
-    private string $usage = "  {app.name} [options]\n\n";
+    private string $usage = "  {app.name} [OPTIONS]\n\n";
     private OptionCollection $options;
 
     public function __construct(
         private string $name,
-        private string $version = '0.0.0'
+        private string $version = '0.0.0',
+        private string $description = ''
     )
     {
         $this->options = new OptionSet();
@@ -37,6 +38,12 @@ final class ApplicationSpec implements ApplicationSpecDisplayable, Parser
     public function version(string $version) : this
     {
         $this->version = $version;
+        return $this;
+    }
+
+    public function description(string $description) : this
+    {
+        $this->description = $description;
         return $this;
     }
 
@@ -63,6 +70,7 @@ final class ApplicationSpec implements ApplicationSpecDisplayable, Parser
         $templateValues = [ '{app.name}', '{app.version}' ];
         $replaceVariables = [ $this->name, $this->version ];
 
+        fwrite(STDOUT, $this->description);
         fwrite(STDOUT, "Usage:\n\n");
         fwrite(STDOUT, str_replace($templateValues, $replaceVariables, $this->usage));
     }

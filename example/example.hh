@@ -13,12 +13,12 @@ function optparser_main(Traversable<string> $argv) : void
     $fileName = 'test';
 
     $parser = cli\optparser([
+        cli\take_on([ '-n', '--name' ], 'file name', ($name) ==> { $fileName = (string) $name; }),
         cli\on([ '-h', '--help' ], 'display help message', () ==> { $help = true; }),
-        cli\on([ '-v', '--version' ], 'display version', () ==> { $version = true; }),
-        cli\take_on([ '-n', '--name' ], 'file name', ($name) ==> { $fileName = (string) $name; })
+        cli\on([ '-v', '--version' ], 'display version', () ==> { $version = true; })
     ]);
 
-    $result = $parser->parse($argv);
+    $args = $parser->parse($argv);
 
     if ($help === true) {
         echo 'help on', PHP_EOL;

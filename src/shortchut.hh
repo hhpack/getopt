@@ -11,13 +11,13 @@
 
 namespace HHPack\Getopt;
 
-use HHPack\Getopt\App\ApplicationSpec;
+use HHPack\Getopt\App\{ ArgumentParser };
 use HHPack\Getopt\Spec\{ Option, NoArgumentOption, OneArgumentOption, NoArgmentAction, OneArgmentAction };
 use HHPack\Getopt\Parser\{ Parser, OptionParser };
 
-function app(string $name, string $version = '0.0.0') : ApplicationSpec
+function app(string $name, string $version = '0.0.0') : ArgumentParser
 {
-    return new ApplicationSpec($name, $version);
+    return new ArgumentParser($name, $version);
 }
 
 function optparser(Traversable<Option> $options = []) : Parser
