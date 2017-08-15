@@ -3,65 +3,54 @@
 namespace HHPack\Getopt\Test\Parser;
 
 use HHPack\Getopt\Parser\OptionParser;
-use HHPack\Getopt\Spec\ValueType;
-use HHPack\Getopt\Spec\OptionValue;
-use HHPack\Getopt\Spec\RequiredException;
-use HHPack\Getopt\Handler\StringConsumeHandler;
+use HHPack\Getopt\Spec\{ OneArgumentOption, NoArgumentOption, OptionSet };
 use HackPack\HackUnit\Contract\Assert;
 
 final class OptionParserTest
 {
+    private string $name = '';
+    private bool $debug = false;
+
     <<Test>>
-    public function standardOption(Assert $assert) : void
+    public function oneArgumentOption(Assert $assert) : void
     {
-        $args = [ '-nfoo' ];
-        $parser = OptionParser::fromOptions([
-            new OptionValue(
-                new StringConsumeHandler('name', [ '-n', '--name' ]),
-                'foo',
-                ValueType::Optional
-            )
+        $options = new OptionSet([
+            new OneArgumentOption([ '-n', '--name' ], '', ($value) ==> { $this->name = (string) $value; })
         ]);
 
-        $result = $parser->parse($args);
+        $parser = new OptionParser($options);
+        $remainArgs = $parser->parse([ '-nfoo' ]);
 
-        $assert->int($result->argumentCount())->eq(0);
-        $assert->int($result->optionCount())->eq(1);
-        $assert->string((string) $result->getOption('name'))->is('foo');
+        $assert->int(count($remainArgs))->eq(0);
+        $assert->string($this->name)->is('foo');
+    }
+
+    <<Test>>
+    public function noArgumentOption(Assert $assert) : void
+    {
+        $options = new OptionSet([
+            new NoArgumentOption([ '-d', '--debug' ], '', () ==> { $this->debug = true; })
+        ]);
+
+        $parser = new OptionParser($options);
+        $remainArgs = $parser->parse([ '-d' ]);
+
+        $assert->int(count($remainArgs))->eq(0);
+        $assert->bool($this->debug)->is(true);
     }
 
     <<Test>>
     public function argsSeparator(Assert $assert) : void
     {
-        $args = [ '-nfoo', '--', 'value' ];
-        $parser = OptionParser::fromOptions([
-            new OptionValue(
-                new StringConsumeHandler('name', [ '-n', '--name' ]),
-                'foo',
-                ValueType::Optional
-            )
+        $options = new OptionSet([
+            new OneArgumentOption([ '-n', '--name' ], '',
+            ($value) ==> { $this->name = (string) $value; })
         ]);
 
-        $result = $parser->parse($args);
+        $parser = new OptionParser($options);
+        $remainArgs = $parser->parse([ '-nfoo', '--', 'value' ]);
 
-        $assert->int($result->argumentCount())->eq(1);
-        $assert->int($result->optionCount())->eq(1);
-        $assert->string((string) $result->getOption('name'))->is('foo');
-    }
-
-    <<Test>>
-    public function requiredOption(Assert $assert) : void
-    {
-        $parser = OptionParser::fromOptions([
-            new OptionValue(
-                new StringConsumeHandler('name', [ '-n', '--name' ]),
-                'foo',
-                ValueType::Required
-            )
-        ]);
-
-        $assert->whenCalled(() ==> {
-            $parser->parse([ 'foo' ]);
-        })->willThrowClass(RequiredException::class);
+        $assert->int(count($remainArgs))->eq(1);
+        $assert->string($this->name)->is('foo');
     }
 }

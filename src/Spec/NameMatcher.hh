@@ -11,19 +11,24 @@
 
 namespace HHPack\Getopt\Spec;
 
-use Exception;
-use RuntimeException;
-
-final class RequiredException extends RuntimeException
+final class NameMatcher implements Matcher
 {
 
     public function __construct(
-        string $message = '',
-        int $code = 0,
-        ?Exception $previous = null
+        private string $name
     )
     {
-        parent::__construct($message, $code, $previous);
+    }
+
+    public function name() : string
+    {
+        return $this->name;
+    }
+
+    public function matches(string $name) : bool
+    {
+        $pattern = '/^(' . $this->name() . ')$/';
+        return preg_match($pattern, $name) === 1;
     }
 
 }

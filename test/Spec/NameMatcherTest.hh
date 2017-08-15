@@ -2,15 +2,15 @@
 
 namespace HHPack\Getopt\Test\Spec;
 
-use HHPack\Getopt\Spec\FlagMatcher;
+use HHPack\Getopt\Spec\NameMatcher;
 use HackPack\HackUnit\Contract\Assert;
 
-final class FlagMatcherTest
+final class NameMatcherTest
 {
     <<Test>>
     public function matcher(Assert $assert) : void
     {
-        $matcher = new FlagMatcher('-f');
+        $matcher = new NameMatcher('-f');
 
         $result = $matcher->matches('-f');
         $assert->bool($result)->is(true);

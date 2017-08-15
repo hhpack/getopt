@@ -8,24 +8,28 @@ use HHPack\Getopt as cli;
 
 function optparser_main(Traversable<string> $argv) : void
 {
+    $help = false;
+    $version = false;
+    $fileName = 'test';
+
     $parser = cli\optparser([
-        cli\bool_option('help', '-h|--help', false, 'display help message'),
-        cli\bool_option('version', '-v|--version', false, 'display version'),
-        cli\string_option('name', '-n|--name=?', 'test', 'file name')
+        cli\take_on([ '-n', '--name' ], 'file name', ($name) ==> { $fileName = (string) $name; }),
+        cli\on([ '-h', '--help' ], 'display help message', () ==> { $help = true; }),
+        cli\on([ '-v', '--version' ], 'display version', () ==> { $version = true; })
     ]);
 
-    $result = $parser->parse($argv);
+    $args = $parser->parse($argv);
 
-    if ((bool) $result->getOption('help')) {
+    if ($help === true) {
         echo 'help on', PHP_EOL;
     }
 
-    if ((bool) $result->getOption('version')) {
+    if ($version === true) {
         echo 'version on', PHP_EOL;
     }
 
-    if ($result->hasOption('name')) {
-        echo 'name = ', $result->getOption('name'), PHP_EOL;
+    if ($fileName !== 'test') {
+        echo 'name = ', $fileName, PHP_EOL;
     }
 }
 optparser_main($argv);

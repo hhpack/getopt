@@ -11,24 +11,38 @@
 
 namespace HHPack\Getopt\Argv;
 
-use HHPack\Getopt\Spec\OptionCollection;
+use HHPack\Getopt\Spec\OptionContainer;
 use RuntimeException;
-use ConstCollection;
 
+/**
+ * This class expands command line arguments according to the specification of option.
+ */
 final class ArgumentsExtractor
 {
 
     public function __construct(
-        private OptionCollection $options
+        private OptionContainer $options
     )
     {
     }
 
+    /**
+     * Expand the list of options to name and arguments.
+     *
+     * -d                 -> [ -d ]
+     * -fexample.txt      -> [ -f, example.txt ]
+     * --file=example.txt -> [ --file. example.txt ]
+     * -xyz               -> [ -x, -y, -z ]
+     *                    -> [ -x, -y, z ]
+     */
     public function extract(Traversable<string> $argv) : ImmVector<string>
     {
         return $this->extractFlagSet($this->extractOptions($argv));
     }
 
+    /**
+     * Expand arguments whose names and values are set into names and arguments.
+     */
     private function extractOptions(Traversable<string> $argv) : ImmVector<string>
     {
         $arguments = Vector {};
@@ -48,6 +62,9 @@ final class ArgumentsExtractor
         return $arguments->toImmVector();
     }
 
+    /**
+     * Expand the arguments that have multiple options summarized.
+     */
     private function extractFlagSet(Traversable<string> $argv) : ImmVector<string>
     {
         $arguments = Vector {};
@@ -73,6 +90,17 @@ final class ArgumentsExtractor
         return $arguments->toImmVector();
     }
 
+    /**
+     * Extract multiple options.
+     *
+     * The result after expansion depends on the number of optional arguments.
+     *
+     * When all options are not taken
+     *   -xyz -> [ -x, -y, -z ]
+     *
+     * When there is an option to take all the arguments
+     *   -xyz -> [ -x, -y, z ]
+     */
     private function extractFlagSetValue(string $flags) : ImmVector<string>
     {
         $arguments = Vector {};
@@ -98,7 +126,7 @@ final class ArgumentsExtractor
         return $arguments->toImmVector();
     }
 
-    public static function fromOptions(OptionCollection $options) : this
+    public static function fromOptions(OptionContainer $options) : this
     {
         return new static($options);
     }

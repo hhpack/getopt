@@ -9,28 +9,27 @@
  * with this source code in the file LICENSE.
  */
 
-namespace HHPack\Getopt\Handler;
+namespace HHPack\Getopt\Spec;
 
-use HHPack\Getopt\Spec\{ FlagMatcher, ConsumeType };
 use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
 
-final class OneArgumentConsumeHandler extends ArgumentConsumeHandler<string>
+
+final class OneArgumentOption extends AbstractOption implements Option
 {
 
     public function __construct(
-        string $name,
-        Traversable<string> $flags
+        Traversable<string> $names,
+        string $helpMessage = '',
+        private OneArgmentAction $action = (($_) ==> {})
     )
     {
-        $this->name = $name;
-        $this->flags = ImmVector::fromItems($flags)->map(($flag) ==> {
-            return new FlagMatcher($flag);
-        });
-        $this->consumeType = ConsumeType::TakesValue;
+        $this->names = ImmSet::fromItems($names);
+        $this->helpMessage = $helpMessage;
+        $this->numberOfArgs = 1;
     }
 
-    public function consume(ArgumentsConsumable<string> $consumer) : Pair <string, string>
+    public function consume(ArgumentsConsumable<string> $consumer) : void
     {
         $name = $consumer->current();
 
@@ -51,7 +50,7 @@ final class OneArgumentConsumeHandler extends ArgumentConsumeHandler<string>
 
         $consumer->consume();
 
-        return Pair { $this->name, $next };
+        $action = $this->action;
+        $action($next);
     }
-
 }

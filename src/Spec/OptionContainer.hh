@@ -11,8 +11,16 @@
 
 namespace HHPack\Getopt\Spec;
 
-enum ConsumeType : int
+
+interface OptionContainer
 {
-    NoValue = 0;
-    TakesValue = 1;
+    /**
+     * Check if it has an argumentless option.
+     */
+    public function hasNoValue(string $name) : bool;
+
+    /**
+     * Check if it has an option to take one argument.
+     */
+    public function hasOneValue(string $name) : bool;
 }
