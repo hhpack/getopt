@@ -11,6 +11,6 @@
 
 namespace HHPack\Getopt\Spec
 {
-    type OneArgmentAction = (function(mixed):void);
     type NoArgmentAction = (function():void);
+    type OneArgmentAction = (function(string):void);
 }

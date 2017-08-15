@@ -12,7 +12,7 @@
 namespace HHPack\Getopt;
 
 use HHPack\Getopt\App\ApplicationSpec;
-use HHPack\Getopt\Spec\{ Option, NoArgumentOption, OneArgumentOption };
+use HHPack\Getopt\Spec\{ Option, NoArgumentOption, OneArgumentOption, NoArgmentAction, OneArgmentAction };
 use HHPack\Getopt\Parser\{ Parser, OptionParser };
 
 function app(string $name, string $version = '0.0.0') : ApplicationSpec
@@ -28,7 +28,7 @@ function optparser(Traversable<Option> $options = []) : Parser
 function on(
     Traversable<string> $prefixes,
     string $help,
-    (function():void) $action): NoArgumentOption
+    NoArgmentAction $action): NoArgumentOption
 {
     return new NoArgumentOption($prefixes, $help, $action);
 }
@@ -36,7 +36,7 @@ function on(
 function take_on(
     Traversable<string> $prefixes,
     string $help,
-    (function(mixed):void) $action): OneArgumentOption
+    OneArgmentAction $action): OneArgumentOption
 {
     return new OneArgumentOption($prefixes, $help, $action);
 }
