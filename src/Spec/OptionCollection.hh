@@ -13,12 +13,10 @@ namespace HHPack\Getopt\Spec;
 
 use ConstCollection;
 
-interface OptionCollection extends ConstCollection<Option>, HelpDisplayable
+interface OptionCollection extends ConstCollection<Option>, OptionContainer, HelpDisplayable
 {
     public function get(string $name) : Option;
     public function contains(...) : bool;
-    public function hasNoValue(string $name) : bool;
     public function noValues() : ImmMap<string, Option>;
-    public function hasOneValue(string $name) : bool;
     public function oneValues() : ImmMap<string, Option>;
 }

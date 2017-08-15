@@ -2,19 +2,17 @@
 
 namespace HHPack\Getopt\Test\Argv;
 
+use HHPack\Getopt\Argv\{ ArgumentsExtractor };
 use HHPack\Getopt\Spec\{ OptionSet, NoArgumentOption, OneArgumentOption };
-use HHPack\Getopt\Argv\ArgumentsExtractor;
+use HHPack\Getopt\Test\Mock\{ OptionContainerMock };
 use HackPack\HackUnit\Contract\Assert;
-
 
 final class ArgumentsExtractorTest
 {
     <<Test>>
     public function shortOption(Assert $assert) : void
     {
-        $options = new OptionSet([
-            new OneArgumentOption([ '-n', '--name' ])
-        ]);
+        $options = new OptionContainerMock([], [ '-n', '--name' ]);
 
         $extractor = new ArgumentsExtractor($options);
         $argv = $extractor->extract([ '-nfoo' ]);
@@ -26,9 +24,7 @@ final class ArgumentsExtractorTest
     <<Test>>
     public function shortEqOption(Assert $assert) : void
     {
-        $options = new OptionSet([
-            new OneArgumentOption([ '-n', '--name' ])
-        ]);
+        $options = new OptionContainerMock([], [ '-n', '--name' ]);
 
         $extractor = new ArgumentsExtractor($options);
         $argv = $extractor->extract([ '-n=foo' ]);
@@ -40,9 +36,7 @@ final class ArgumentsExtractorTest
     <<Test>>
     public function longOption(Assert $assert) : void
     {
-        $options = new OptionSet([
-            new OneArgumentOption([ '-n', '--name' ])
-        ]);
+        $options = new OptionContainerMock([], [ '-n', '--name' ]);
 
         $extractor = new ArgumentsExtractor($options);
         $argv = $extractor->extract([ '--name=foo' ]);
@@ -54,10 +48,7 @@ final class ArgumentsExtractorTest
     <<Test>>
     public function flagsOption(Assert $assert) : void
     {
-        $options = new OptionSet([
-            new NoArgumentOption([ '-d', '--debug' ]),
-            new NoArgumentOption([ '-V', '--verbose' ])
-        ]);
+        $options = new OptionContainerMock(['-d', '--debug', '-V', '--verbose'], []);
 
         $extractor = new ArgumentsExtractor($options);
         $argv = $extractor->extract([ '-dV' ]);
@@ -69,9 +60,7 @@ final class ArgumentsExtractorTest
     <<Test>>
     public function flagLongOption(Assert $assert) : void
     {
-        $options = new OptionSet([
-            new NoArgumentOption([ '-N', '--no-name' ])
-        ]);
+        $options = new OptionContainerMock(['-N', '--no-name'], []);
 
         $extractor = new ArgumentsExtractor($options);
         $argv = $extractor->extract([ '--no-name' ]);
@@ -82,9 +71,7 @@ final class ArgumentsExtractorTest
     <<Test>>
     public function longWithSepalateOption(Assert $assert) : void
     {
-        $options = new OptionSet([
-            new OneArgumentOption([ '-N', '--long-name' ])
-        ]);
+        $options = new OptionContainerMock(['-N', '--long-name'], []);
 
         $extractor = new ArgumentsExtractor($options);
         $argv = $extractor->extract([ '--long-name', 'foo' ]);
