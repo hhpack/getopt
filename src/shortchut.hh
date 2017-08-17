@@ -20,11 +20,20 @@ function app(string $name, string $version = '0.0.0') : ArgumentParser
     return new ArgumentParser($name, $version);
 }
 
-function optparser(Traversable<Option> $options = []) : Parser
+/**
+ * Create a option parser
+ */
+function optparser(Traversable<Option> $options = []) : OptionParser
 {
     return OptionParser::fromOptions($options);
 }
 
+/**
+ * Create a no argument option
+ *
+ *   on(['-h', '--help'], 'message', () ==> { ... }])
+ *
+ */
 function on(
     Traversable<string> $prefixes,
     string $help,
@@ -33,6 +42,12 @@ function on(
     return new NoArgumentOption($prefixes, $help, $action);
 }
 
+/**
+ * Create a one argument option
+ *
+ *   take_on(['--name'], 'message', ($name) ==> { ... }])
+ *
+ */
 function take_on(
     Traversable<string> $prefixes,
     string $help,
