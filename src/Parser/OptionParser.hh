@@ -11,11 +11,11 @@
 
 namespace HHPack\Getopt\Parser;
 
-use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection };
+use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection, HelpDisplayable };
 use HHPack\Getopt\Argv\{ ArgumentsConsumer, ArgumentsExtractor };
 
 
-final class OptionParser implements Parser
+final class OptionParser implements Parser, HelpDisplayable
 {
 
     public function __construct(
@@ -72,6 +72,11 @@ final class OptionParser implements Parser
         $extractedArgv = $extractor->extract($argv);
 
         return $extractedArgv;
+    }
+
+    public function displayHelp() : void
+    {
+        $this->options->displayHelp();
     }
 
     public static function fromOptions(Traversable<Option> $options = []) : this
