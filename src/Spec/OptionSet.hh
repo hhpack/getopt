@@ -118,6 +118,15 @@ final class OptionSet implements OptionCollection
         return $optionNames->toImmSet();
     }
 
+    /**
+     * Display help message for options
+     *
+     * Examples:
+     *
+     *   Options:
+     *     -h, -help     help message
+     *     -v, -version  version message
+     */
     public function displayHelp() : void
     {
         fwrite(STDOUT, "Options:\n");
@@ -138,7 +147,7 @@ final class OptionSet implements OptionCollection
 
         foreach ($this->items() as $option) {
             fwrite(STDOUT, sprintf(
-                "  %s %s\n",
+                "  %s  %s\n",
                 str_pad($option->displayName(), $maxLength),
                 $option->helpMessage()
             ));
