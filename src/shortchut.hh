@@ -45,13 +45,14 @@ function on(
 /**
  * Create a one argument option
  *
- *   take_on(['--name'], 'message', ($name) ==> { ... }])
+ *   take_on(['--name'], 'NAME', 'message', ($name) ==> { ... }])
  *
  */
 function take_on(
     Traversable<string> $prefixes,
+    string $metavar,
     string $help,
     OneArgmentAction $action): OneArgumentOption
 {
-    return new OneArgumentOption($prefixes, $help, $action);
+    return new OneArgumentOption($prefixes, $metavar, $help, $action);
 }

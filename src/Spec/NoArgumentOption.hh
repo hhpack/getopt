@@ -28,6 +28,19 @@ final class NoArgumentOption extends AbstractOption implements Option
         $this->numberOfArgs = 0;
     }
 
+    /**
+     * Return option name for display
+     *
+     * examples:
+     *   -h, --help
+     *   --version
+     */
+    public function displayName() : string
+    {
+        $names = $this->names()->toValuesArray();
+        return implode(', ', $names);
+    }
+
     public function consume(ArgumentsConsumable<string> $consumer) : void
     {
         $value = $consumer->current();

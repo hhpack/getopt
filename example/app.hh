@@ -21,14 +21,14 @@ final class CliApplication
             ->description("This cli application is example.\n\n")
             ->usage("  {app.name} [OPTIONS]\n\n")
             ->options([
+                cli\take_on(['-n', '--name'], 'NAME', 'file name', ($name) ==> {
+                    $this->fileName = $name;
+                }),
                 cli\on(['-h', '--help'], 'display help message', () ==> {
                     $this->help = true;
                 }),
                 cli\on(['-v', '--version'], 'display version', () ==> {
                     $this->version = true;
-                }),
-                cli\take_on(['-n', '--name'], 'file name', ($name) ==> {
-                    $this->fileName = $name;
                 })
             ]);
     }
