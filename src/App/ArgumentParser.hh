@@ -59,7 +59,7 @@ final class ArgumentParser implements ApplicationSpecDisplayable, Parser
         return $this;
     }
 
-    public function parse(Traversable<string> $input = []) : Traversable<string>
+    public function parse(Traversable<string> $input = []) : ImmVector<string>
     {
         $parser = new OptionParser($this->options);
         return $parser->parse($input);
