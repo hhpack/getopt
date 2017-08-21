@@ -40,12 +40,6 @@ abstract class AbstractOption implements Option
         return $this->helpMessage;
     }
 
-    public function displayName() : string
-    {
-        $names = $this->names()->toValuesArray();
-        return implode(', ', $names);
-    }
-
     public function toImmMap() : ImmMap<string, Option>
     {
         return ImmMap::fromItems( $this->options() );

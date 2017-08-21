@@ -27,7 +27,7 @@ final class CliApplication
                 cli\on(['-v', '--version'], 'display version', () ==> {
                     $this->version = true;
                 }),
-                cli\take_on(['-n', '--name'], 'file name', ($name) ==> {
+                cli\take_on(['-n', '--name'], 'NAME', 'file name', ($name) ==> {
                     $this->fileName = $name;
                 })
             ]);

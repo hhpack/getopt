@@ -20,6 +20,7 @@ final class OneArgumentOption extends AbstractOption implements Option
 
     public function __construct(
         Traversable<string> $names,
+        private string $metavar = 'VALUE',
         string $helpMessage = '',
         private OneArgmentAction $action = (($_) ==> {})
     )
@@ -27,6 +28,19 @@ final class OneArgumentOption extends AbstractOption implements Option
         $this->names = ImmSet::fromItems($names);
         $this->helpMessage = $helpMessage;
         $this->numberOfArgs = 1;
+    }
+
+    /**
+     * Return option name for display
+     *
+     * examples:
+     *   -n, --name NAME
+     *   --file NAME
+     */
+    public function displayName() : string
+    {
+        $names = $this->names()->toValuesArray();
+        return implode(', ', $names) . ' ' . $this->metavar;
     }
 
     public function consume(ArgumentsConsumable<string> $consumer) : void

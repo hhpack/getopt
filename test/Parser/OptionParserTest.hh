@@ -15,7 +15,7 @@ final class OptionParserTest
     public function oneArgumentOption(Assert $assert) : void
     {
         $options = new OptionSet([
-            new OneArgumentOption([ '-n', '--name' ], '', ($value) ==> { $this->name = (string) $value; })
+            new OneArgumentOption([ '-n', '--name' ], 'NAME', '', ($value) ==> { $this->name = (string) $value; })
         ]);
 
         $parser = new OptionParser($options);
@@ -43,7 +43,7 @@ final class OptionParserTest
     public function argsSeparator(Assert $assert) : void
     {
         $options = new OptionSet([
-            new OneArgumentOption([ '-n', '--name' ], '',
+            new OneArgumentOption([ '-n', '--name' ], 'NAME', '',
             ($value) ==> { $this->name = (string) $value; })
         ]);
 

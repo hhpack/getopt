@@ -13,7 +13,7 @@ function optparser_main(Traversable<string> $argv) : void
     $fileName = 'test';
 
     $parser = cli\optparser([
-        cli\take_on([ '-n', '--name' ], 'file name', ($name) ==> { $fileName = (string) $name; }),
+        cli\take_on([ '-n', '--name' ], 'NAME', 'file name', ($name) ==> { $fileName = (string) $name; }),
         cli\on([ '-h', '--help' ], 'display help message', () ==> { $help = true; }),
         cli\on([ '-v', '--version' ], 'display version', () ==> { $version = true; })
     ]);
