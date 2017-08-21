@@ -16,5 +16,5 @@ interface Parser
     /**
      * Parse command line arguments
      */
-    public function parse(Traversable<string> $input) : Traversable<string>;
+    public function parse(Traversable<string> $input) : ImmVector<string>;
 }

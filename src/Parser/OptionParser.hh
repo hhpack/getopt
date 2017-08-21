@@ -14,7 +14,6 @@ namespace HHPack\Getopt\Parser;
 use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection, HelpDisplayable };
 use HHPack\Getopt\Argv\{ ArgumentsConsumer, ArgumentsExtractor };
 
-
 final class OptionParser implements Parser, HelpDisplayable
 {
 
@@ -24,7 +23,7 @@ final class OptionParser implements Parser, HelpDisplayable
     {
     }
 
-    public function parse(Traversable<string> $input = []) : Traversable<string>
+    public function parse(Traversable<string> $input = []) : ImmVector<string>
     {
         list($argv, $notFlags) = $this->prepareArgs($input);
 
@@ -48,7 +47,7 @@ final class OptionParser implements Parser, HelpDisplayable
             $option->consume($consumer);
         }
 
-        return $args;
+        return $args->immutable();
     }
 
     private function prepareArgs(Traversable<string> $argv = []) : (Traversable<string>, Traversable<string>)
