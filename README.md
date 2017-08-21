@@ -18,7 +18,7 @@ $version = false;
 $fileName = 'test';
 
 $parser = cli\optparser([
-    cli\take_on([ '-n', '--name' ], 'file name', ($name) ==> { $fileName = (string) $name; }),
+    cli\take_on([ '-n', '--name' ], 'NAME', 'file name', ($name) ==> { $fileName = (string) $name; }),
     cli\on([ '-h', '--help' ], 'display help message', () ==> { $help = true; }),
     cli\on([ '-v', '--version' ], 'display version', () ==> { $version = true; })
 ]);
@@ -67,7 +67,7 @@ final class CliApplication
                 cli\on(['-v', '--version'], 'display version', () ==> {
                     $this->version = true;
                 }),
-                cli\take_on(['-n', '--name'], 'file name', ($name) ==> {
+                cli\take_on(['-n', '--name'], 'NAME', 'file name', ($name) ==> {
                     $this->fileName = $name;
                 })
             ]);
