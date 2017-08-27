@@ -35,18 +35,19 @@ final class OptionParser implements Parser, HelpDisplayable
 
     private function parseAll(Traversable<string> $input = []) : ImmVector<string>
     {
-        list($argv, $notFlags) = $this->prepareArgs($input);
+        $args = Vector {};
 
-        $args = Vector::fromItems($notFlags);
-
-        $extractedArgv = $this->extractArgv($argv);
+        $extractedArgv = $this->extractArgv($input);
         $consumer = new ArgumentsConsumer($extractedArgv);
 
         while ($consumer->valid()) {
             $matches = [];
             $value = $consumer->current();
 
-            if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
+            if (preg_match('/^(--)$/', $value, $matches) === 1) {
+                $consumer->consume();
+                break;
+            } else if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
                 $args->add($value);
                 $consumer->consume();
                 continue;
@@ -57,21 +58,23 @@ final class OptionParser implements Parser, HelpDisplayable
             $option->consume($consumer);
         }
 
-        return $args->immutable();
+        return $consumer->applyTo($args)->immutable();
     }
 
     private function parseUntilNonOption(Traversable<string> $input = []) : ImmVector<string>
     {
-        list($argv, $notFlags) = $this->prepareArgs($input);
+        $args = Vector {};
 
-        $args = Vector::fromItems($notFlags);
-
-        $extractedArgv = $this->extractArgv($argv);
+        $extractedArgv = $this->extractArgv($input);
         $consumer = new ArgumentsConsumer($extractedArgv);
 
         while ($consumer->valid()) {
             $matches = [];
             $value = $consumer->current();
+
+            if (preg_match('/^(--)$/', $value, $matches) === 1) {
+                break;
+            }
 
             if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
                 break;
@@ -84,21 +87,6 @@ final class OptionParser implements Parser, HelpDisplayable
         }
 
         return $consumer->applyTo($args)->immutable();
-    }
-
-    private function prepareArgs(Traversable<string> $argv = []) : (Traversable<string>, Traversable<string>)
-    {
-        $arguments = ImmSet::fromItems($argv);
-
-        $notFlags = $arguments->skipWhile(($value) ==> $value !== '--');
-
-        $args = $arguments->slice(0, $arguments->count() - $notFlags->count());
-
-        if (!$notFlags->isEmpty()) {
-            $notFlags = $notFlags->slice(1, $notFlags->count() - 1); // Remove --
-        }
-
-        return tuple($args, $notFlags);
     }
 
     private function extractArgv(Traversable<string> $argv) : ImmVector<string>
