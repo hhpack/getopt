@@ -9,6 +9,7 @@ use HackPack\HackUnit\Contract\Assert;
 final class OptionParserTest
 {
     private string $name = '';
+    private string $type = '';
     private bool $debug = false;
 
     <<Test>>
@@ -53,4 +54,25 @@ final class OptionParserTest
         $assert->int(count($remainArgs))->eq(1);
         $assert->string($this->name)->is('foo');
     }
+
+    <<Test>>
+    public function stopNotOption(Assert $assert) : void
+    {
+        $options = new OptionSet([
+            new OneArgumentOption([ '-n', '--name' ], 'NAME', '',
+                ($value) ==> { $this->name = (string) $value; }),
+            new OneArgumentOption([ '-t', '--type' ], 'TYPE', '',
+                ($value) ==> { $this->name = (string) $value; })
+        ]);
+
+        $parser = new OptionParser($options, true);
+        $remainArgs = $parser->parse([ '-nfoo', 'value', '-tpartial' ]);
+
+        $assert->string($this->name)->is('foo');
+        $assert->int(count($remainArgs))->eq(3);
+        $assert->string($remainArgs->at(0))->is('value');
+        $assert->string($remainArgs->at(1))->is('-t');
+        $assert->string($remainArgs->at(2))->is('partial');
+    }
+
 }

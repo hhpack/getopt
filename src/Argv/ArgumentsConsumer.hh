@@ -63,4 +63,14 @@ final class ArgumentsConsumer implements ArgumentsConsumable<string>, IteratorAg
         $this->position++;
     }
 
+    public function applyTo<T as \OutputCollection<string>>(T $args): T
+    {
+        while ($this->valid()) {
+            $args->add($this->current());
+            $this->consume();
+        }
+
+        return $args;
+    }
+
 }
