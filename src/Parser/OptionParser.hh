@@ -18,12 +18,22 @@ final class OptionParser implements Parser, HelpDisplayable
 {
 
     public function __construct(
-        private OptionCollection $options = new OptionSet()
+        private OptionCollection $options = new OptionSet(),
+        private bool $stopAtNonOption = false
     )
     {
     }
 
     public function parse(Traversable<string> $input = []) : ImmVector<string>
+    {
+        if ($this->stopAtNonOption) {
+            return $this->parseUntilNonOption($input);
+        } else {
+            return $this->parseAll($input);
+        }
+    }
+
+    private function parseAll(Traversable<string> $input = []) : ImmVector<string>
     {
         list($argv, $notFlags) = $this->prepareArgs($input);
 
@@ -48,6 +58,32 @@ final class OptionParser implements Parser, HelpDisplayable
         }
 
         return $args->immutable();
+    }
+
+    private function parseUntilNonOption(Traversable<string> $input = []) : ImmVector<string>
+    {
+        list($argv, $notFlags) = $this->prepareArgs($input);
+
+        $args = Vector::fromItems($notFlags);
+
+        $extractedArgv = $this->extractArgv($argv);
+        $consumer = new ArgumentsConsumer($extractedArgv);
+
+        while ($consumer->valid()) {
+            $matches = [];
+            $value = $consumer->current();
+
+            if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
+                break;
+            }
+
+            list($_, $name) = $matches;
+
+            $option = $this->options->get($name);
+            $option->consume($consumer);
+        }
+
+        return $consumer->applyTo($args)->immutable();
     }
 
     private function prepareArgs(Traversable<string> $argv = []) : (Traversable<string>, Traversable<string>)
