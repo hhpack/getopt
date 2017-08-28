@@ -2,7 +2,7 @@
 
 namespace HHPack\Getopt\Example;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/hh_autoload.php';
 
 use HHPack\Getopt as cli;
 use HHPack\Getopt\App\{ ArgumentParser };

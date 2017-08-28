@@ -14,14 +14,20 @@ namespace HHPack\Getopt\Parser;
 use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection, HelpDisplayable };
 use HHPack\Getopt\Argv\{ ArgumentsConsumer, ArgumentsExtractor };
 
+type OptionParserOptions = shape(
+    "stopAtNonOption" => bool
+);
+
 final class OptionParser implements Parser, HelpDisplayable
 {
+    private bool $stopAtNonOption;
 
     public function __construct(
-        private OptionCollection $options = new OptionSet(),
-        private bool $stopAtNonOption = false
+        private OptionCollection $options,
+        OptionParserOptions $parserOptions = shape('stopAtNonOption' => false)
     )
     {
+        $this->stopAtNonOption = $parserOptions['stopAtNonOption'];
     }
 
     public function parse(Traversable<string> $input = []) : ImmVector<string>
