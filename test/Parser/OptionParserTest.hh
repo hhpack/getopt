@@ -65,7 +65,7 @@ final class OptionParserTest
                 ($value) ==> { $this->name = (string) $value; })
         ]);
 
-        $parser = new OptionParser($options, true);
+        $parser = new OptionParser($options, shape('stopAtNonOption' => true));
         $remainArgs = $parser->parse([ '-nfoo', 'value', '-tpartial' ]);
 
         $assert->string($this->name)->is('foo');

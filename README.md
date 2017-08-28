@@ -13,27 +13,31 @@ Define an option to take one argument, use the **take_on** function.
 ```hack
 use HHPack\Getopt as cli;
 
-$help = false;
-$version = false;
-$fileName = 'test';
+final class Options {
+    public bool $help = false;
+    public bool $version = false;
+    public string $fileName = 'test';
+}
+
+$options = new Options();
 
 $parser = cli\optparser([
-    cli\take_on([ '-n', '--name' ], 'NAME', 'file name', ($name) ==> { $fileName = (string) $name; }),
-    cli\on([ '-h', '--help' ], 'display help message', () ==> { $help = true; }),
-    cli\on([ '-v', '--version' ], 'display version', () ==> { $version = true; })
+    cli\take_on([ '-n', '--name' ], 'NAME', 'file name', ($name) ==> { $options->fileName = $name; }),
+    cli\on([ '-h', '--help' ], 'display help message', () ==> { $options->help = true; }),
+    cli\on([ '-v', '--version' ], 'display version', () ==> { $options->version = true; })
 ]);
 
 $args = $parser->parse($argv);
 
-if ($help === true) {
+if ($options->help === true) {
     echo 'help on', PHP_EOL;
 }
 
-if ($version === true) {
+if ($options->version === true) {
     echo 'version on', PHP_EOL;
 }
 
-if ($fileName !== 'test') {
+if ($options->fileName !== 'test') {
     echo 'name = ', $fileName, PHP_EOL;
 }
 ```

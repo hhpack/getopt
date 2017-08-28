@@ -12,8 +12,8 @@
 namespace HHPack\Getopt;
 
 use HHPack\Getopt\App\{ ArgumentParser };
-use HHPack\Getopt\Spec\{ Option, NoArgumentOption, OneArgumentOption, NoArgmentAction, OneArgmentAction };
-use HHPack\Getopt\Parser\{ Parser, OptionParser };
+use HHPack\Getopt\Spec\{ Option, OptionSet, NoArgumentOption, OneArgumentOption, NoArgmentAction, OneArgmentAction };
+use HHPack\Getopt\Parser\{ Parser, OptionParser, OptionParserOptions };
 
 function app(string $name, string $version = '0.0.0') : ArgumentParser
 {
@@ -23,9 +23,12 @@ function app(string $name, string $version = '0.0.0') : ArgumentParser
 /**
  * Create a option parser
  */
-function optparser(Traversable<Option> $options = []) : OptionParser
+function optparser(
+    Traversable<Option> $options = [],
+    OptionParserOptions $parserOptions = shape('stopAtNonOption' => false)
+) : OptionParser
 {
-    return OptionParser::fromOptions($options);
+    return new OptionParser(new OptionSet($options), $parserOptions);
 }
 
 /**
