@@ -34,13 +34,20 @@ final class OneArgumentOption extends AbstractOption implements Option
      * Return option name for display
      *
      * examples:
-     *   -n, --name NAME
-     *   --file NAME
+     *   -n NAME, --name=NAME
+     *   --file=NAME
      */
-    public function displayName() : string
+    public function helpLabel() : string
     {
-        $names = $this->names()->toValuesArray();
-        return implode(', ', $names) . ' ' . $this->metavar;
+        $formattedNames = $this->names()->map(($name) ==>  {
+            if (strpos($name, '--') !== false) {
+                return sprintf("%s=%s", $name, $this->metavar);
+            } else if (strpos($name, '-') !== false) {
+                return sprintf("%s %s", $name, $this->metavar);
+            }
+        })->toValuesArray();
+
+        return implode(', ', $formattedNames);
     }
 
     public function consume(ArgumentsConsumable<string> $consumer) : void

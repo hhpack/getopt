@@ -35,7 +35,7 @@ final class NoArgumentOption extends AbstractOption implements Option
      *   -h, --help
      *   --version
      */
-    public function displayName() : string
+    public function helpLabel() : string
     {
         $names = $this->names()->toValuesArray();
         return implode(', ', $names);

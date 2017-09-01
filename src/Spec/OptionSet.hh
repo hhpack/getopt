@@ -132,7 +132,7 @@ final class OptionSet implements OptionCollection
         fwrite(STDOUT, "Options:\n");
 
         $labels = $this->items()->map(($option) ==> {
-            return $option->displayName();
+            return $option->helpLabel();
         })->toArray();
 
         $maxLength = array_reduce($labels, ($current, $label) ==> {
@@ -148,7 +148,7 @@ final class OptionSet implements OptionCollection
         foreach ($this->items() as $option) {
             fwrite(STDOUT, sprintf(
                 "  %s  %s\n",
-                str_pad($option->displayName(), $maxLength),
+                str_pad($option->helpLabel(), $maxLength),
                 $option->helpMessage()
             ));
         }

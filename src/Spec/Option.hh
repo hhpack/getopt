@@ -17,9 +17,9 @@ interface Option
 {
     public function names() : ImmSet<string>;
     public function options() : Iterator<Pair<string, Option>>;
+    public function helpLabel() : string;
     public function helpMessage() : string;
     public function isTakesValue() : bool;
     public function consume(ArgumentsConsumable<string> $consumer) : void;
-    public function displayName() : string;
     public function toImmMap() : ImmMap<string, Option>;
 }
