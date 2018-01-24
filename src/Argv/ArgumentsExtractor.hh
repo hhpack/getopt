@@ -50,7 +50,7 @@ final class ArgumentsExtractor
         foreach ($argv as $value) {
             $matches = [];
 
-            if (preg_match('/^(-|--)(\w+)=(.+)$/', $value, $matches) !== 1) {
+            if (preg_match('/^(-|--)(\w+)=(.+)$/', $value, &$matches) !== 1) {
                 $arguments->add($value);
                 continue;
             }
@@ -72,7 +72,7 @@ final class ArgumentsExtractor
         foreach ($argv as $value) {
             $matches = [];
 
-            if (preg_match('/^-([A-Za-z]+)$/', $value, $matches) !== 1) {
+            if (preg_match('/^-([A-Za-z]+)$/', $value, &$matches) !== 1) {
                 $arguments->add($value);
                 continue;
             }
