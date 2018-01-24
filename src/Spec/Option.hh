@@ -13,13 +13,12 @@ namespace HHPack\Getopt\Spec;
 
 use HHPack\Getopt\Argv\ArgumentsConsumable;
 
-interface Option
-{
-    public function names() : ImmSet<string>;
-    public function options() : Iterator<Pair<string, Option>>;
-    public function helpLabel() : string;
-    public function helpMessage() : string;
-    public function isTakesValue() : bool;
-    public function consume(ArgumentsConsumable<string> $consumer) : void;
-    public function toImmMap() : ImmMap<string, Option>;
+interface Option {
+  public function names(): ImmSet<string>;
+  public function options(): Iterator<Pair<string, Option>>;
+  public function helpLabel(): string;
+  public function helpMessage(): string;
+  public function isTakesValue(): bool;
+  public function consume(ArgumentsConsumable<string> $consumer): void;
+  public function toImmMap(): ImmMap<string, Option>;
 }

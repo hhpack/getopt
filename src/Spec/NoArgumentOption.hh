@@ -14,44 +14,41 @@ namespace HHPack\Getopt\Spec;
 use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
 
-final class NoArgumentOption extends AbstractOption implements Option
-{
+final class NoArgumentOption extends AbstractOption implements Option {
 
-    public function __construct(
-        Traversable<string> $names,
-        string $helpMessage = '',
-        private NoArgmentAction $action = (() ==> {})
-    )
-    {
-        $this->names = ImmSet::fromItems($names);
-        $this->helpMessage = $helpMessage;
-        $this->numberOfArgs = 0;
+  public function __construct(
+    Traversable<string> $names,
+    string $helpMessage = '',
+    private NoArgmentAction $action = (() ==> {
+                                       }),
+  ) {
+    $this->names = ImmSet::fromItems($names);
+    $this->helpMessage = $helpMessage;
+    $this->numberOfArgs = 0;
+  }
+
+  /**
+   * Return option name for display
+   *
+   * examples:
+   *   -h, --help
+   *   --version
+   */
+  public function helpLabel(): string {
+    $names = $this->names()->toValuesArray();
+    return implode(', ', $names);
+  }
+
+  public function consume(ArgumentsConsumable<string> $consumer): void {
+    $value = $consumer->current();
+
+    if (!$this->matches($value)) {
+      throw new LogicException('Option name does not match');
     }
 
-    /**
-     * Return option name for display
-     *
-     * examples:
-     *   -h, --help
-     *   --version
-     */
-    public function helpLabel() : string
-    {
-        $names = $this->names()->toValuesArray();
-        return implode(', ', $names);
-    }
+    $consumer->consume();
 
-    public function consume(ArgumentsConsumable<string> $consumer) : void
-    {
-        $value = $consumer->current();
-
-        if (!$this->matches($value))  {
-            throw new LogicException('Option name does not match');
-        }
-
-        $consumer->consume();
-
-        $action = $this->action;
-        $action();
-    }
+    $action = $this->action;
+    $action();
+  }
 }

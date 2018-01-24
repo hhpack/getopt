@@ -13,7 +13,6 @@ namespace HHPack\Getopt\App;
 
 use HHPack\Getopt\Spec\HelpDisplayable;
 
-interface ApplicationSpecDisplayable extends HelpDisplayable
-{
-    public function displayVersion() : void;
+interface ApplicationSpecDisplayable extends HelpDisplayable {
+  public function displayVersion(): void;
 }

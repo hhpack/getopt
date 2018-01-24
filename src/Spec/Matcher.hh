@@ -11,7 +11,6 @@
 
 namespace HHPack\Getopt\Spec;
 
-interface Matcher
-{
-    public function matches(string $name) : bool;
+interface Matcher {
+  public function matches(string $name): bool;
 }

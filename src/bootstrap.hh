@@ -9,8 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace HHPack\Getopt\Spec
-{
-    type NoArgmentAction = (function():void);
-    type OneArgmentAction = (function(string):void);
+namespace HHPack\Getopt\Spec {
+  type NoArgmentAction = (function(): void);
+  type OneArgmentAction = (function(string): void);
 }

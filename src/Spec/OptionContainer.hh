@@ -11,16 +11,14 @@
 
 namespace HHPack\Getopt\Spec;
 
+interface OptionContainer {
+  /**
+   * Check if it has an argumentless option.
+   */
+  public function hasNoValue(string $name): bool;
 
-interface OptionContainer
-{
-    /**
-     * Check if it has an argumentless option.
-     */
-    public function hasNoValue(string $name) : bool;
-
-    /**
-     * Check if it has an option to take one argument.
-     */
-    public function hasOneValue(string $name) : bool;
+  /**
+   * Check if it has an option to take one argument.
+   */
+  public function hasOneValue(string $name): bool;
 }
