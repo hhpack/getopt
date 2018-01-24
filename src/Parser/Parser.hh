@@ -11,10 +11,9 @@
 
 namespace HHPack\Getopt\Parser;
 
-interface Parser
-{
-    /**
-     * Parse command line arguments
-     */
-    public function parse(Traversable<string> $input) : ImmVector<string>;
+interface Parser {
+  /**
+   * Parse command line arguments
+   */
+  public function parse(Traversable<string> $input): ImmVector<string>;
 }

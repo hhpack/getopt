@@ -11,24 +11,29 @@
 
 namespace HHPack\Getopt;
 
-use HHPack\Getopt\App\{ ArgumentParser };
-use HHPack\Getopt\Spec\{ Option, OptionSet, NoArgumentOption, OneArgumentOption, NoArgmentAction, OneArgmentAction };
-use HHPack\Getopt\Parser\{ Parser, OptionParser, OptionParserOptions };
+use HHPack\Getopt\App\{ArgumentParser};
+use HHPack\Getopt\Spec\{
+  Option,
+  OptionSet,
+  NoArgumentOption,
+  OneArgumentOption,
+  NoArgmentAction,
+  OneArgmentAction
+};
+use HHPack\Getopt\Parser\{Parser, OptionParser, OptionParserOptions};
 
-function app(string $name, string $version = '0.0.0') : ArgumentParser
-{
-    return new ArgumentParser($name, $version);
+function app(string $name, string $version = '0.0.0'): ArgumentParser {
+  return new ArgumentParser($name, $version);
 }
 
 /**
  * Create a option parser
  */
 function optparser(
-    Traversable<Option> $options = [],
-    OptionParserOptions $parserOptions = shape('stopAtNonOption' => false)
-) : OptionParser
-{
-    return new OptionParser(new OptionSet($options), $parserOptions);
+  Traversable<Option> $options = [],
+  OptionParserOptions $parserOptions = shape('stopAtNonOption' => false),
+): OptionParser {
+  return new OptionParser(new OptionSet($options), $parserOptions);
 }
 
 /**
@@ -38,11 +43,11 @@ function optparser(
  *
  */
 function on(
-    Traversable<string> $prefixes,
-    string $help,
-    NoArgmentAction $action): NoArgumentOption
-{
-    return new NoArgumentOption($prefixes, $help, $action);
+  Traversable<string> $prefixes,
+  string $help,
+  NoArgmentAction $action,
+): NoArgumentOption {
+  return new NoArgumentOption($prefixes, $help, $action);
 }
 
 /**
@@ -52,10 +57,10 @@ function on(
  *
  */
 function take_on(
-    Traversable<string> $prefixes,
-    string $metavar,
-    string $help,
-    OneArgmentAction $action): OneArgumentOption
-{
-    return new OneArgumentOption($prefixes, $metavar, $help, $action);
+  Traversable<string> $prefixes,
+  string $metavar,
+  string $help,
+  OneArgmentAction $action,
+): OneArgumentOption {
+  return new OneArgumentOption($prefixes, $metavar, $help, $action);
 }

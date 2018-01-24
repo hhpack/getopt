@@ -11,24 +11,17 @@
 
 namespace HHPack\Getopt\Spec;
 
-final class NameMatcher implements Matcher
-{
+final class NameMatcher implements Matcher {
 
-    public function __construct(
-        private string $name
-    )
-    {
-    }
+  public function __construct(private string $name) {}
 
-    public function name() : string
-    {
-        return $this->name;
-    }
+  public function name(): string {
+    return $this->name;
+  }
 
-    public function matches(string $name) : bool
-    {
-        $pattern = '/^(' . $this->name() . ')$/';
-        return preg_match($pattern, $name) === 1;
-    }
+  public function matches(string $name): bool {
+    $pattern = '/^('.$this->name().')$/';
+    return preg_match($pattern, $name) === 1;
+  }
 
 }

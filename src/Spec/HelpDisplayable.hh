@@ -11,7 +11,6 @@
 
 namespace HHPack\Getopt\Spec;
 
-interface HelpDisplayable
-{
-    public function displayHelp() : void;
+interface HelpDisplayable {
+  public function displayHelp(): void;
 }

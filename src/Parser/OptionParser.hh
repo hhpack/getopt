@@ -11,107 +11,101 @@
 
 namespace HHPack\Getopt\Parser;
 
-use HHPack\Getopt\Spec\{ Option, OptionSet, OptionCollection, HelpDisplayable };
-use HHPack\Getopt\Argv\{ ArgumentsConsumer, ArgumentsExtractor };
+use HHPack\Getopt\Spec\{Option, OptionSet, OptionCollection, HelpDisplayable};
+use HHPack\Getopt\Argv\{ArgumentsConsumer, ArgumentsExtractor};
 
-type OptionParserOptions = shape(
-    "stopAtNonOption" => bool
-);
+type OptionParserOptions = shape("stopAtNonOption" => bool);
 
-final class OptionParser implements Parser, HelpDisplayable
-{
-    private bool $stopAtNonOption;
+final class OptionParser implements Parser, HelpDisplayable {
+  private bool $stopAtNonOption;
 
-    public function __construct(
-        private OptionCollection $options,
-        OptionParserOptions $parserOptions = shape('stopAtNonOption' => false)
-    )
-    {
-        $this->stopAtNonOption = $parserOptions['stopAtNonOption'];
+  public function __construct(
+    private OptionCollection $options,
+    OptionParserOptions $parserOptions = shape('stopAtNonOption' => false),
+  ) {
+    $this->stopAtNonOption = $parserOptions['stopAtNonOption'];
+  }
+
+  public function parse(Traversable<string> $input = []): ImmVector<string> {
+    if ($this->stopAtNonOption) {
+      return $this->parseUntilNonOption($input);
+    } else {
+      return $this->parseAll($input);
+    }
+  }
+
+  private function parseAll(
+    Traversable<string> $input = [],
+  ): ImmVector<string> {
+    $args = Vector {};
+
+    $extractedArgv = $this->extractArgv($input);
+    $consumer = new ArgumentsConsumer($extractedArgv);
+
+    while ($consumer->valid()) {
+      $matches = [];
+      $value = $consumer->current();
+
+      if (preg_match('/^(--)$/', $value, &$matches) === 1) {
+        $consumer->consume();
+        break;
+      } else if (preg_match('/^(-{1,2}[^-]+)$/', $value, &$matches) !== 1) {
+        $args->add($value);
+        $consumer->consume();
+        continue;
+      }
+      list($_, $name) = $matches;
+
+      $option = $this->options->get($name);
+      $option->consume($consumer);
     }
 
-    public function parse(Traversable<string> $input = []) : ImmVector<string>
-    {
-        if ($this->stopAtNonOption) {
-            return $this->parseUntilNonOption($input);
-        } else {
-            return $this->parseAll($input);
-        }
+    return $consumer->applyTo($args)->immutable();
+  }
+
+  private function parseUntilNonOption(
+    Traversable<string> $input = [],
+  ): ImmVector<string> {
+    $args = Vector {};
+
+    $extractedArgv = $this->extractArgv($input);
+    $consumer = new ArgumentsConsumer($extractedArgv);
+
+    while ($consumer->valid()) {
+      $matches = [];
+      $value = $consumer->current();
+
+      if (preg_match('/^(--)$/', $value, &$matches) === 1) {
+        break;
+      }
+
+      if (preg_match('/^(-{1,2}[^-]+)$/', $value, &$matches) !== 1) {
+        break;
+      }
+
+      list($_, $name) = $matches;
+
+      $option = $this->options->get($name);
+      $option->consume($consumer);
     }
 
-    private function parseAll(Traversable<string> $input = []) : ImmVector<string>
-    {
-        $args = Vector {};
+    return $consumer->applyTo($args)->immutable();
+  }
 
-        $extractedArgv = $this->extractArgv($input);
-        $consumer = new ArgumentsConsumer($extractedArgv);
+  private function extractArgv(Traversable<string> $argv): ImmVector<string> {
+    $extractor = ArgumentsExtractor::fromOptions($this->options);
+    $extractedArgv = $extractor->extract($argv);
 
-        while ($consumer->valid()) {
-            $matches = [];
-            $value = $consumer->current();
+    return $extractedArgv;
+  }
 
-            if (preg_match('/^(--)$/', $value, $matches) === 1) {
-                $consumer->consume();
-                break;
-            } else if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
-                $args->add($value);
-                $consumer->consume();
-                continue;
-            }
-            list($_, $name) = $matches;
+  public function displayHelp(): void {
+    $this->options->displayHelp();
+  }
 
-            $option = $this->options->get($name);
-            $option->consume($consumer);
-        }
-
-        return $consumer->applyTo($args)->immutable();
-    }
-
-    private function parseUntilNonOption(Traversable<string> $input = []) : ImmVector<string>
-    {
-        $args = Vector {};
-
-        $extractedArgv = $this->extractArgv($input);
-        $consumer = new ArgumentsConsumer($extractedArgv);
-
-        while ($consumer->valid()) {
-            $matches = [];
-            $value = $consumer->current();
-
-            if (preg_match('/^(--)$/', $value, $matches) === 1) {
-                break;
-            }
-
-            if (preg_match('/^(-{1,2}[^-]+)$/', $value, $matches) !== 1) {
-                break;
-            }
-
-            list($_, $name) = $matches;
-
-            $option = $this->options->get($name);
-            $option->consume($consumer);
-        }
-
-        return $consumer->applyTo($args)->immutable();
-    }
-
-    private function extractArgv(Traversable<string> $argv) : ImmVector<string>
-    {
-        $extractor = ArgumentsExtractor::fromOptions($this->options);
-        $extractedArgv = $extractor->extract($argv);
-
-        return $extractedArgv;
-    }
-
-    public function displayHelp() : void
-    {
-        $this->options->displayHelp();
-    }
-
-    public static function fromOptions(Traversable<Option> $options = []) : this
-    {
-        $options = new OptionSet($options);
-        return new static($options);
-    }
+  public static function fromOptions(Traversable<Option> $options = []): this {
+    $options = new OptionSet($options);
+    return new static($options);
+  }
 
 }
