@@ -12,9 +12,16 @@
 namespace HHPack\Getopt\Spec;
 
 use ConstCollection;
+use Countable;
 
 interface OptionCollection
-  extends ConstCollection<Option>, OptionContainer, HelpDisplayable {
+  extends Countable, OptionContainer, HelpDisplayable {
+
+  // From ConstCollection<+Te> excluding toDArray / toVArray methods
+  public function isEmpty(): bool;
+  public function count(): int;
+  public function items(): Iterable<Option>;
+
   public function get(string $name): Option;
   public function contains(...): bool;
   public function noValues(): ImmMap<string, Option>;
