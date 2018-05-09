@@ -61,11 +61,11 @@ final class ArgumentParser implements ApplicationSpecDisplayable, Parser {
     $templateValues = ['{app.name}', '{app.version}'];
     $replaceVariables = [$this->name, $this->version];
 
-    fwrite(STDOUT, $this->description);
-    fwrite(STDOUT, "Usage:\n\n");
-    fwrite(
-      STDOUT,
-      str_replace($templateValues, $replaceVariables, $this->usage),
+    \fwrite(\STDOUT, $this->description);
+    \fwrite(\STDOUT, "Usage:\n\n");
+    \fwrite(
+      \STDOUT,
+      \str_replace($templateValues, $replaceVariables, $this->usage),
     );
   }
 
@@ -75,7 +75,7 @@ final class ArgumentParser implements ApplicationSpecDisplayable, Parser {
   }
 
   public function displayVersion(): void {
-    fwrite(STDOUT, sprintf("%s %s\n", $this->name, $this->version));
+    \fwrite(\STDOUT, \sprintf("%s %s\n", $this->name, $this->version));
   }
 
 }

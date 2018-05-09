@@ -46,10 +46,10 @@ final class OptionParser implements Parser, HelpDisplayable {
       $matches = [];
       $value = $consumer->current();
 
-      if (preg_match('/^(--)$/', $value, &$matches) === 1) {
+      if (\preg_match('/^(--)$/', $value, &$matches) === 1) {
         $consumer->consume();
         break;
-      } else if (preg_match('/^(-{1,2}[^-]+)$/', $value, &$matches) !== 1) {
+      } else if (\preg_match('/^(-{1,2}[^-]+)$/', $value, &$matches) !== 1) {
         $args->add($value);
         $consumer->consume();
         continue;
@@ -75,11 +75,11 @@ final class OptionParser implements Parser, HelpDisplayable {
       $matches = [];
       $value = $consumer->current();
 
-      if (preg_match('/^(--)$/', $value, &$matches) === 1) {
+      if (\preg_match('/^(--)$/', $value, &$matches) === 1) {
         break;
       }
 
-      if (preg_match('/^(-{1,2}[^-]+)$/', $value, &$matches) !== 1) {
+      if (\preg_match('/^(-{1,2}[^-]+)$/', $value, &$matches) !== 1) {
         break;
       }
 

@@ -45,7 +45,7 @@ final class ArgumentsExtractor {
     foreach ($argv as $value) {
       $matches = [];
 
-      if (preg_match('/^(-|--)(\w+)=(.+)$/', $value, &$matches) !== 1) {
+      if (\preg_match('/^(-|--)(\w+)=(.+)$/', $value, &$matches) !== 1) {
         $arguments->add($value);
         continue;
       }
@@ -68,13 +68,13 @@ final class ArgumentsExtractor {
     foreach ($argv as $value) {
       $matches = [];
 
-      if (preg_match('/^-([A-Za-z]+)$/', $value, &$matches) !== 1) {
+      if (\preg_match('/^-([A-Za-z]+)$/', $value, &$matches) !== 1) {
         $arguments->add($value);
         continue;
       }
       list($_, $flags) = $matches;
 
-      if (strlen($flags) <= 1) {
+      if (\strlen($flags) <= 1) {
         $arguments->add('-'.$flags);
         continue;
       }
@@ -101,21 +101,21 @@ final class ArgumentsExtractor {
     $arguments = Vector {};
     $remainFlags = $flags;
 
-    while (strlen($remainFlags) > 0) {
-      $flag = substr($remainFlags, 0, 1);
+    while (\strlen($remainFlags) > 0) {
+      $flag = \substr($remainFlags, 0, 1);
       $shortName = '-'.$flag;
 
       if ($this->options->hasNoValue($shortName)) { //has options rule?
         $arguments->add($shortName);
-        $remainFlags = substr($remainFlags, 1);
+        $remainFlags = \substr($remainFlags, 1);
         continue;
       } else if ($this->options->hasOneValue($shortName)) { //has args?
-        $value = substr($remainFlags, 1);
+        $value = \substr($remainFlags, 1);
         $arguments->addAll([$shortName, $value]);
         break;
       } else {
         throw new RuntimeException(
-          sprintf('%s is not a valid option', $flag),
+          \sprintf('%s is not a valid option', $flag),
         );
       }
     }

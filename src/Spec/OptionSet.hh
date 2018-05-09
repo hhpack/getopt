@@ -39,7 +39,7 @@ final class OptionSet implements OptionCollection {
     $included = false;
     $optionNames = $this->optionNames();
 
-    foreach (func_get_args() as $name) {
+    foreach (\func_get_args() as $name) {
       if (!$optionNames->contains($name)) {
         continue;
       }
@@ -114,7 +114,7 @@ final class OptionSet implements OptionCollection {
    *     -v, -version  version message
    */
   public function displayHelp(): void {
-    fwrite(STDOUT, "Options:\n");
+    \fwrite(\STDOUT, "Options:\n");
 
     $labels =
       $this->items()->map(
@@ -123,13 +123,13 @@ final class OptionSet implements OptionCollection {
         },
       )->toArray();
 
-    $maxLength = array_reduce(
+    $maxLength = \array_reduce(
       $labels,
       ($current, $label) ==> {
         $maxLength = $current;
 
-        if (strlen($label) > $current) {
-          $maxLength = strlen($label);
+        if (\strlen($label) > $current) {
+          $maxLength = \strlen($label);
         }
 
         return $maxLength;
@@ -138,11 +138,11 @@ final class OptionSet implements OptionCollection {
     );
 
     foreach ($this->items() as $option) {
-      fwrite(
-        STDOUT,
-        sprintf(
+      \fwrite(
+        \STDOUT,
+        \sprintf(
           "  %s  %s\n",
-          str_pad($option->helpLabel(), $maxLength),
+          \str_pad($option->helpLabel(), $maxLength),
           $option->helpMessage(),
         ),
       );

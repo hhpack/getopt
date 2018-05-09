@@ -39,15 +39,15 @@ final class OneArgumentOption extends AbstractOption implements Option {
     $formattedNames =
       $this->names()->map(
         ($name) ==> {
-          if (strpos($name, '--') !== false) {
-            return sprintf("%s=%s", $name, $this->metavar);
-          } else if (strpos($name, '-') !== false) {
-            return sprintf("%s %s", $name, $this->metavar);
+          if (\strpos($name, '--') !== false) {
+            return \sprintf("%s=%s", $name, $this->metavar);
+          } else if (\strpos($name, '-') !== false) {
+            return \sprintf("%s %s", $name, $this->metavar);
           }
         },
       )->toValuesArray();
 
-    return implode(', ', $formattedNames);
+    return \implode(', ', $formattedNames);
   }
 
   public function consume(ArgumentsConsumable<string> $consumer): void {
@@ -64,7 +64,7 @@ final class OneArgumentOption extends AbstractOption implements Option {
     $next = $consumer->next();
     $consumer->consume();
 
-    if (preg_match('/^(-|--)/', $next) === 1) {
+    if (\preg_match('/^(-|--)/', $next) === 1) {
       throw new LogicException('have not argument value');
     }
 

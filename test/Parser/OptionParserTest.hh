@@ -29,7 +29,7 @@ final class OptionParserTest {
     $parser = new OptionParser($options);
     $remainArgs = $parser->parse(['-nfoo']);
 
-    $assert->int(count($remainArgs))->eq(0);
+    $assert->int(\count($remainArgs))->eq(0);
     $assert->string($this->name)->is('foo');
   }
 
@@ -50,7 +50,7 @@ final class OptionParserTest {
     $parser = new OptionParser($options);
     $remainArgs = $parser->parse(['-d']);
 
-    $assert->int(count($remainArgs))->eq(0);
+    $assert->int(\count($remainArgs))->eq(0);
     $assert->bool($this->debug)->is(true);
   }
 
@@ -72,7 +72,7 @@ final class OptionParserTest {
     $parser = new OptionParser($options);
     $remainArgs = $parser->parse(['-nfoo', '--', 'value']);
 
-    $assert->int(count($remainArgs))->eq(1);
+    $assert->int(\count($remainArgs))->eq(1);
     $assert->string($this->name)->is('foo');
   }
 
@@ -103,7 +103,7 @@ final class OptionParserTest {
     $remainArgs = $parser->parse(['-nfoo', 'value', '-tpartial']);
 
     $assert->string($this->name)->is('foo');
-    $assert->int(count($remainArgs))->eq(3);
+    $assert->int(\count($remainArgs))->eq(3);
     $assert->string($remainArgs->at(0))->is('value');
     $assert->string($remainArgs->at(1))->is('-t');
     $assert->string($remainArgs->at(2))->is('partial');

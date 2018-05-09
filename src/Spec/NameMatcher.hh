@@ -21,7 +21,7 @@ final class NameMatcher implements Matcher {
 
   public function matches(string $name): bool {
     $pattern = '/^('.$this->name().')$/';
-    return preg_match($pattern, $name) === 1;
+    return \preg_match($pattern, $name) === 1;
   }
 
 }

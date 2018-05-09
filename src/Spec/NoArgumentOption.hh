@@ -36,7 +36,7 @@ final class NoArgumentOption extends AbstractOption implements Option {
    */
   public function helpLabel(): string {
     $names = $this->names()->toValuesArray();
-    return implode(', ', $names);
+    return \implode(', ', $names);
   }
 
   public function consume(ArgumentsConsumable<string> $consumer): void {
