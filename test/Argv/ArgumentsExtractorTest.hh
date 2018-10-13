@@ -5,72 +5,67 @@ namespace HHPack\Getopt\Test\Argv;
 use HHPack\Getopt\Argv\{ArgumentsExtractor};
 use HHPack\Getopt\Spec\{OptionSet, NoArgumentOption, OneArgumentOption};
 use HHPack\Getopt\Test\Mock\{OptionContainerMock};
-use HackPack\HackUnit\Contract\Assert;
+use type Facebook\HackTest\HackTest;
+use function Facebook\FBExpect\expect;
 
-final class ArgumentsExtractorTest {
-  <<Test>>
-  public function shortOption(Assert $assert): void {
+final class ArgumentsExtractorTest extends HackTest {
+  public function testShortOption(): void {
     $options = new OptionContainerMock([], ['-n', '--name']);
 
     $extractor = new ArgumentsExtractor($options);
     $argv = $extractor->extract(['-nfoo']);
 
-    $assert->string($argv->at(0))->is('-n');
-    $assert->string($argv->at(1))->is('foo');
+    expect($argv->at(0))->toBeSame('-n');
+    expect($argv->at(1))->toBeSame('foo');
   }
 
-  <<Test>>
-  public function shortEqOption(Assert $assert): void {
+  public function testShortEqOption(): void {
     $options = new OptionContainerMock([], ['-n', '--name']);
 
     $extractor = new ArgumentsExtractor($options);
     $argv = $extractor->extract(['-n=foo']);
 
-    $assert->string($argv->at(0))->is('-n');
-    $assert->string($argv->at(1))->is('foo');
+    expect($argv->at(0))->toBeSame('-n');
+    expect($argv->at(1))->toBeSame('foo');
   }
 
-  <<Test>>
-  public function longOption(Assert $assert): void {
+  public function testLongOption(): void {
     $options = new OptionContainerMock([], ['-n', '--name']);
 
     $extractor = new ArgumentsExtractor($options);
     $argv = $extractor->extract(['--name=foo']);
 
-    $assert->string($argv->at(0))->is('--name');
-    $assert->string($argv->at(1))->is('foo');
+    expect($argv->at(0))->toBeSame('--name');
+    expect($argv->at(1))->toBeSame('foo');
   }
 
-  <<Test>>
-  public function flagsOption(Assert $assert): void {
+  public function testFlagsOption(): void {
     $options =
       new OptionContainerMock(['-d', '--debug', '-V', '--verbose'], []);
 
     $extractor = new ArgumentsExtractor($options);
     $argv = $extractor->extract(['-dV']);
 
-    $assert->string($argv->at(0))->is('-d');
-    $assert->string($argv->at(1))->is('-V');
+    expect($argv->at(0))->toBeSame('-d');
+    expect($argv->at(1))->toBeSame('-V');
   }
 
-  <<Test>>
-  public function flagLongOption(Assert $assert): void {
+  public function testFlagLongOption(): void {
     $options = new OptionContainerMock(['-N', '--no-name'], []);
 
     $extractor = new ArgumentsExtractor($options);
     $argv = $extractor->extract(['--no-name']);
 
-    $assert->string($argv->at(0))->is('--no-name');
+    expect($argv->at(0))->toBeSame('--no-name');
   }
 
-  <<Test>>
-  public function longWithSepalateOption(Assert $assert): void {
+  public function testLongWithSepalateOption(): void {
     $options = new OptionContainerMock(['-N', '--long-name'], []);
 
     $extractor = new ArgumentsExtractor($options);
     $argv = $extractor->extract(['--long-name', 'foo']);
 
-    $assert->string($argv->at(0))->is('--long-name');
-    $assert->string($argv->at(1))->is('foo');
+    expect($argv->at(0))->toBeSame('--long-name');
+    expect($argv->at(1))->toBeSame('foo');
   }
 }

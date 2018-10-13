@@ -3,12 +3,12 @@
 namespace HHPack\Getopt\Test\Spec;
 
 use HHPack\Getopt\Spec\OneArgumentOption;
-use HackPack\HackUnit\Contract\Assert;
+use type Facebook\HackTest\HackTest;
+use function Facebook\FBExpect\expect;
 
-final class OneArgumentOptionTest {
-  <<Test>>
-  public function helpLabel(Assert $assert): void {
+final class OneArgumentOptionTest extends HackTest {
+  public function testHelpLabel(): void {
     $option = new OneArgumentOption(['-n', '--name'], 'NAME', '');
-    $assert->string($option->helpLabel())->is('-n NAME, --name=NAME');
+    expect($option->helpLabel())->toBeSame('-n NAME, --name=NAME');
   }
 }

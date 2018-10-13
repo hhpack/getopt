@@ -3,62 +3,59 @@
 namespace HHPack\Getopt\Test\Spec;
 
 use HHPack\Getopt\Spec\{OptionSet, NoArgumentOption, OneArgumentOption};
-use HackPack\HackUnit\Contract\Assert;
+use type Facebook\HackTest\HackTest;
+use function Facebook\FBExpect\expect;
 
-final class OptionSetTest {
-  <<Test>>
-  public function shortAndLongContains(Assert $assert): void {
+final class OptionSetTest extends HackTest {
+  public function testShortAndLongContains(): void {
     $options = new OptionSet([new NoArgumentOption(['-d', '--debug'])]);
 
     $result = $options->contains('-d'); // short name
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
 
     $result = $options->contains('--debug'); // long name
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
   }
 
-  <<Test>>
-  public function lookUpFromContainer(Assert $assert): void {
+  public function testLookUpFromContainer(): void {
     $options = new OptionSet([new NoArgumentOption(['-d', '--debug'])]);
 
     $option = $options->get('-d'); // short name
-    $assert->mixed($option)->isTypeOf(NoArgumentOption::class);
+    expect($option)->toBeInstanceOf(NoArgumentOption::class);
 
     $option = $options->get('--debug'); // long name
-    $assert->mixed($option)->isTypeOf(NoArgumentOption::class);
+    expect($option)->toBeInstanceOf(NoArgumentOption::class);
   }
 
-  <<Test>>
-  public function noValueContains(Assert $assert): void {
+  public function testNoValueContains(): void {
     $options = new OptionSet([new NoArgumentOption(['-d', '--debug'])]);
 
     $result = $options->hasNoValue('-d'); // short name
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
 
     $result = $options->hasNoValue('--debug'); // long name
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
 
     $result = $options->hasNoValue('-n'); // short name
-    $assert->bool($result)->is(false);
+    expect($result)->toBeFalse();
 
     $result = $options->hasNoValue('--name'); // long name
-    $assert->bool($result)->is(false);
+    expect($result)->toBeFalse();
   }
 
-  <<Test>>
-  public function oneValueContains(Assert $assert): void {
+  public function testOneValueContains(): void {
     $options = new OptionSet([new OneArgumentOption(['-n', '--name'])]);
 
     $result = $options->hasOneValue('-n'); // short name
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
 
     $result = $options->hasOneValue('--name'); // long name
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
 
     $result = $options->hasNoValue('-d'); // short name
-    $assert->bool($result)->is(false);
+    expect($result)->toBeFalse();
 
     $result = $options->hasNoValue('--debug'); // long name
-    $assert->bool($result)->is(false);
+    expect($result)->toBeFalse();
   }
 }
