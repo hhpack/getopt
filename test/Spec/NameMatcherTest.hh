@@ -3,17 +3,17 @@
 namespace HHPack\Getopt\Test\Spec;
 
 use HHPack\Getopt\Spec\NameMatcher;
-use HackPack\HackUnit\Contract\Assert;
+use type Facebook\HackTest\HackTest;
+use function Facebook\FBExpect\expect;
 
-final class NameMatcherTest {
-  <<Test>>
-  public function matcher(Assert $assert): void {
+final class NameMatcherTest extends HackTest {
+  public function testMatcher(): void {
     $matcher = new NameMatcher('-f');
 
     $result = $matcher->matches('-f');
-    $assert->bool($result)->is(true);
+    expect($result)->toBeTrue();
 
     $result = $matcher->matches('--file');
-    $assert->bool($result)->is(false);
+    expect($result)->toBeFalse();
   }
 }
