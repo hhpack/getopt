@@ -1,5 +1,3 @@
-<?hh //strict
-
 /**
  * This file is part of hhpack\getopt package.
  *
@@ -13,6 +11,7 @@ namespace HHPack\Getopt\Spec;
 
 use HHPack\Getopt\Argv\ArgumentsConsumable;
 use LogicException;
+use HH\Lib\Str;
 
 final class OneArgumentOption extends AbstractOption implements Option {
 
@@ -40,9 +39,11 @@ final class OneArgumentOption extends AbstractOption implements Option {
       $this->names()->map(
         ($name) ==> {
           if (\strpos($name, '--') !== false) {
-            return \sprintf("%s=%s", $name, $this->metavar);
+            return Str\format("%s=%s", $name, $this->metavar);
           } else if (\strpos($name, '-') !== false) {
-            return \sprintf("%s %s", $name, $this->metavar);
+            return Str\format("%s %s", $name, $this->metavar);
+					} else {
+            return '';
           }
         },
       )->toValuesArray();

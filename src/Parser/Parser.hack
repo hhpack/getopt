@@ -1,5 +1,3 @@
-<?hh //strict
-
 /**
  * This file is part of hhpack\getopt package.
  *
@@ -9,8 +7,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace HHPack\Getopt\Spec;
+namespace HHPack\Getopt\Parser;
 
-interface Matcher {
-  public function matches(string $name): bool;
+interface Parser {
+  /**
+   * Parse command line arguments
+   */
+  public function parse(Traversable<string> $input): ImmVector<string>;
 }

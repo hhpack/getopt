@@ -1,5 +1,3 @@
-<?hh //strict
-
 namespace HHPack\Getopt\Test\Spec;
 
 use HHPack\Getopt\Spec\{OptionSet, NoArgumentOption, OneArgumentOption};

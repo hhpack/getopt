@@ -1,5 +1,3 @@
-<?hh //strict
-
 namespace HHPack\Getopt\Test\Mock;
 
 use HHPack\Getopt\Argv\ArgumentsConsumable;

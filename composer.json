@@ -12,17 +12,18 @@
   ],
   "require": {
     "hhvm": ">=3.21.0",
-    "hhvm/hhvm-autoload": "^1.6"
+    "hhvm/hhvm-autoload": "^2.0",
+    "hhvm/hsl": "^4.1"
   },
   "require-dev": {
-    "hhvm/hacktest": "^1.1",
-    "facebook/fbexpect": "^2.1"
+    "hhvm/hacktest": "^1.5",
+    "facebook/fbexpect": "^2.5"
   },
   "autoload": {
     "psr-4": {
       "HHPack\\Getopt\\": "src"
     },
-    "files": [ "src/bootstrap.hh", "src/shortchut.hh" ]
+    "files": [ "src/bootstrap.hack", "src/shortchut.hack" ]
   },
   "autoload-dev": {
     "psr-4": {

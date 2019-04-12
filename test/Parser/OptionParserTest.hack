@@ -1,5 +1,3 @@
-<?hh //strict
-
 namespace HHPack\Getopt\Test\Parser;
 
 use HHPack\Getopt\Parser\OptionParser;

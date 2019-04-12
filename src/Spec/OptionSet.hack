@@ -1,5 +1,3 @@
-<?hh //strict
-
 /**
  * This file is part of hhpack\getopt package.
  *
@@ -35,11 +33,11 @@ final class OptionSet implements OptionCollection {
    * $options->contains('-c');
    * $options->contains('-c', '--config');
    */
-  public function contains(...): bool {
+  public function contains(string ...$names): bool {
     $included = false;
     $optionNames = $this->optionNames();
 
-    foreach (\func_get_args() as $name) {
+    foreach ($names as $name) {
       if (!$optionNames->contains($name)) {
         continue;
       }

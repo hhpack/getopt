@@ -1,5 +1,3 @@
-<?hh //strict
-
 /**
  * This file is part of hhpack\getopt package.
  *
@@ -9,11 +7,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace HHPack\Getopt\Parser;
+namespace HHPack\Getopt\App;
 
-interface Parser {
-  /**
-   * Parse command line arguments
-   */
-  public function parse(Traversable<string> $input): ImmVector<string>;
+use HHPack\Getopt\Spec\HelpDisplayable;
+
+interface ApplicationSpecDisplayable extends HelpDisplayable {
+  public function displayVersion(): void;
 }

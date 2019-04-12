@@ -1,8 +1,6 @@
-<?hh //partial
-
 namespace HHPack\Getopt\Example;
 
-require_once __DIR__.'/../vendor/hh_autoload.php';
+require_once __DIR__.'/../vendor/hh_autoload.hh';
 
 use HHPack\Getopt as cli;
 use HHPack\Getopt\App\{ArgumentParser};
@@ -55,9 +53,13 @@ final class CliApplication {
     } else if ($this->version) {
       $this->argParser->displayVersion();
     } else {
-      echo "file name: ", $this->fileName, PHP_EOL;
+      echo "file name: ", $this->fileName, \PHP_EOL;
     }
   }
 }
 
-(new CliApplication())->run($argv);
+<<__EntryPoint>>
+function main() : noreturn {
+	(new CliApplication())->run( /* HH_IGNORE_ERROR[2050] */ $GLOBALS['argv'] );
+	exit(0);
+}
