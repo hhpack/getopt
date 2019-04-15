@@ -1,5 +1,3 @@
-<?hh //strict
-
 /**
  * This file is part of hhpack\getopt package.
  *
@@ -9,10 +7,8 @@
  * with this source code in the file LICENSE.
  */
 
-namespace HHPack\Getopt\App;
+namespace HHPack\Getopt\Spec;
 
-use HHPack\Getopt\Spec\HelpDisplayable;
-
-interface ApplicationSpecDisplayable extends HelpDisplayable {
-  public function displayVersion(): void;
+interface HelpDisplayable {
+  public function displayHelp(): void;
 }

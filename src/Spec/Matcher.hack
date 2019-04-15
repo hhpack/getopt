@@ -1,5 +1,3 @@
-<?hh //strict
-
 /**
  * This file is part of hhpack\getopt package.
  *
@@ -11,6 +9,6 @@
 
 namespace HHPack\Getopt\Spec;
 
-interface HelpDisplayable {
-  public function displayHelp(): void;
+interface Matcher {
+  public function matches(string $name): bool;
 }

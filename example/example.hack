@@ -1,8 +1,6 @@
-<?hh //partial
-
 namespace HHPack\Getopt\Example;
 
-require_once __DIR__.'/../vendor/hh_autoload.php';
+require_once __DIR__.'/../vendor/hh_autoload.hh';
 
 use HHPack\Getopt as cli;
 
@@ -12,7 +10,10 @@ final class Options {
   public string $fileName = 'test';
 }
 
-function optparser_main(Traversable<string> $argv): void {
+<<__EntryPoint>>
+function optparser_main(): noreturn {
+  $argv = /* HH_IGNORE_ERROR[2050] */ $GLOBALS['argv'];
+
   $options = new Options();
 
   $parser = cli\optparser(
@@ -45,15 +46,16 @@ function optparser_main(Traversable<string> $argv): void {
   $args = $parser->parse($argv);
 
   if ($options->help === true) {
-    echo 'help on', PHP_EOL;
+    echo 'help on', \PHP_EOL;
   }
 
   if ($options->version === true) {
-    echo 'version on', PHP_EOL;
+    echo 'version on', \PHP_EOL;
   }
 
   if ($options->fileName !== 'test') {
-    echo 'name = ', $options->fileName, PHP_EOL;
+    echo 'name = ', $options->fileName, \PHP_EOL;
   }
+
+	exit(0);
 }
-optparser_main($argv);

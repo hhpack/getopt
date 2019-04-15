@@ -1,5 +1,3 @@
-<?hh //strict
-
 namespace HHPack\Getopt\Test\Argv;
 
 use HHPack\Getopt\Argv\{ArgumentsExtractor};
