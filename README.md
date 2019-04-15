@@ -1,7 +1,7 @@
 # getopt
 
 [![Latest Stable Version](https://poser.pugx.org/hhpack/getopt/v/stable)](https://packagist.org/packages/hhpack/getopt)
-[![Build Status](https://travis-ci.org/hhpack/getopt.svg?branch=master)](https://travis-ci.org/hhpack/getopt)
+[![CircleCI](https://circleci.com/gh/hhpack/getopt/tree/master.svg?style=svg)](https://circleci.com/gh/hhpack/getopt/tree/master)
 [![Dependency Status](https://www.versioneye.com/user/projects/5684c257eb4f47003000042e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5684c257eb4f47003000042e)
 
 ## Basic usage
